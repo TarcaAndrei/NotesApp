@@ -44,7 +44,7 @@
       <string>Login with your credentials</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QPushButton" name="butonlogin">
         <property name="palette">
          <palette>
@@ -501,6 +501,13 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0" alignment="Qt::AlignVCenter">
+       <widget class="QCheckBox" name="keep_logged_check">
+        <property name="text">
+         <string>Keep me logged in</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
@@ -552,10 +559,23 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0" alignment="Qt::AlignVCenter">
-       <widget class="QCheckBox" name="keep_logged_check">
+      <item row="1" column="0">
+       <widget class="QLabel" name="lbl_eroare">
+        <property name="font">
+         <font>
+          <family>LG PC</family>
+          <bold>true</bold>
+          <underline>true</underline>
+          <strikeout>false</strikeout>
+          <stylestrategy>PreferAntialias</stylestrategy>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(255, 0, 0)</string>
+        </property>
         <property name="text">
-         <string>Keep me logged in</string>
+         <string/>
         </property>
        </widget>
       </item>

@@ -14,10 +14,9 @@ int main(int argc, char *argv[]) {
     RepositoryApp repositoryApp = RepositoryApp();
     LoginService loginService = LoginService("../Data/authentification", repositoryApp);
     LoginWidget* loginWidget = new LoginWidget(loginService);
-    loginWidget->show();
-//    MainWidget* mainWidget = new MainWidget();
-//    MainWindow* mainWindow = new MainWindow(loginWidget, mainWidget);
-//    mainWindow->show();
+    MainWidget* mainWidget = new MainWidget();
+    MainWindow* mainWindow = new MainWindow(loginWidget, mainWidget);
+    mainWindow->show();
 //    qDebug()<<QDateTime::currentDateTime().time().toString(); si a
 ///    qDebug()<<QDateTime::fromString("2023-08-26T14:39:18", Qt::ISODate); asta ii ala bun
 //    qDebug()<<QDateTime::fromString("", Qt::DateFormat::ISODate)

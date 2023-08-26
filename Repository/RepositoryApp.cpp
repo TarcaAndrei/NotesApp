@@ -16,10 +16,9 @@ bool RepositoryApp::connect_to_db(const string &host_name, const string &db_name
         qDebug()<<"Database opened successfully!";
     }
     else{
-        qDebug()<<this->repository_database.lastError().text();
-        qDebug()<<this->repository_database.lastError();
+        throw std::domain_error(this->repository_database.lastError().text().toStdString());
     }
-    return ok;
+    return true;
 }
 
 RepositoryApp::~RepositoryApp() {

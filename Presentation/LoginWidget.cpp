@@ -48,13 +48,13 @@ void LoginWidget::connections() {
             save_auth = true;
         }
         this->loginService.set_auth_credentials(username_txt, password_txt_txt, save_auth);
-//        auto db_connected = this->loginService.connect_repository();
-        auto db_connected = true;
-        if(db_connected){
+        try {
+            auto db_connected = this->loginService.connect_repository();
             this->parent->finised_login();
         }
-        else{
-            qDebug()<<"Nu o mers";
+        catch (const std::domain_error&e){
+            ui->lbl_eroare->setAlignment(Qt::AlignCenter);
+            ui->lbl_eroare->setText(e.what());
         }
     });
 }
