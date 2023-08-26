@@ -6,7 +6,9 @@
 #define APP1_LOGINWIDGET_H
 
 #include <QWidget>
+#include <QMainWindow>
 #include "../Service/LoginService.h"
+#include "../Observer/Observer.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -20,11 +22,11 @@ private:
     void load_widget();
     void connections();
     Ui::LoginWidget *ui;
-
+    Observer* parent;
 public:
     explicit LoginWidget(LoginService& loginService1, QWidget *parent = nullptr);
-
     ~LoginWidget() override;
+    void setParent(Observer* parent_window);
 
 };
 

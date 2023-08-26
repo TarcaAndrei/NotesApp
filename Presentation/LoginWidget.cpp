@@ -35,6 +35,8 @@ void LoginWidget::load_widget() {
         this->ui->user_txt->setText(QString::fromStdString(list_auth[0]));
         this->ui->password_txt->setText(QString::fromStdString(list_auth[1]));
     }
+
+    ui->groupBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void LoginWidget::connections() {
@@ -46,5 +48,18 @@ void LoginWidget::connections() {
             save_auth = true;
         }
         this->loginService.set_auth_credentials(username_txt, password_txt_txt, save_auth);
+//        auto db_connected = this->loginService.connect_repository();
+        auto db_connected = true;
+        if(db_connected){
+            this->parent->finised_login();
+        }
+        else{
+            qDebug()<<"Nu o mers";
+        }
     });
 }
+
+void LoginWidget::setParent(Observer*parent_window) {
+    this->parent = parent_window;
+}
+

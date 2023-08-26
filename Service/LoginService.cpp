@@ -4,7 +4,7 @@
 
 #include "LoginService.h"
 
-LoginService::LoginService(const string &auth_filename) {
+LoginService::LoginService(const string &auth_filename, RepositoryApp &repositoryApp) : repositoryApp(repositoryApp) {
     this->auth_file = auth_filename;
     this->load_auth_credentials();
 }
@@ -19,21 +19,21 @@ void LoginService::load_auth_credentials() {
         string buffer;
         std::getline(fin, buffer);
         if(buffer.empty()){
-            qDebug()<<"No auth";
+//            qDebug()<<"No auth";
             return;
         }
         this->username = buffer;
-        qDebug()<<buffer;//username
+//        qDebug()<<buffer;//username
         buffer.clear();
         std::getline(fin, buffer);
         if(buffer.empty()){
-            qDebug()<<"No auth";
+//            qDebug()<<"No auth";
             this->username.clear();
             this->password.clear();
             return;
         }
         this->password = buffer;
-        qDebug()<<buffer;//parola -> ulterior si sa fac criptare
+//        qDebug()<<buffer;//parola -> ulterior si sa fac criptare
     }
 }
 
@@ -62,4 +62,9 @@ void LoginService::set_auth_credentials(const string &username1, const string &p
         this->write_auth_credentials(this->username, this->password);
     }
 }
+
+bool LoginService::connect_repository() {
+    return this->repositoryApp.connect_to_db(getenv("host_name"), this->username, this->username, this->password, std::stoi(getenv("port")));
+}
+
 

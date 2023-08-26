@@ -9,20 +9,25 @@
 #include<fstream>
 #include<vector>
 #include<sstream>
+#include<cstdlib>
 #include<QDebug>
+#include "../Repository/RepositoryApp.h"
+
 using std::string;
 
 class LoginService {
 private:
+    RepositoryApp& repositoryApp;
     std::string auth_file;
     std::string username;
     std::string password;
     void load_auth_credentials();
     void write_auth_credentials(const std::string& username1, const string& password1);
 public:
-    explicit LoginService(const std::string& auth_filename);
+    explicit LoginService(const string &auth_filename, RepositoryApp &repositoryApp);
     std::vector<std::string> get_auth_credentials();
     void set_auth_credentials(const std::string& username1, const string& password1, bool save);
+    bool connect_repository();
     ~LoginService()=default;
     LoginService()=default;
 };

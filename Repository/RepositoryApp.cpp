@@ -4,21 +4,21 @@
 
 #include "RepositoryApp.h"
 
-RepositoryApp::RepositoryApp(const string &host_name, const string &db_name, const string &user_name,
-                             const string &passwd, int port) {
-    auto opened = this->connect_to_db(host_name, db_name, user_name, passwd, port);
-    qDebug()<<opened;
-}
-
 bool RepositoryApp::connect_to_db(const string &host_name, const string &db_name, const string &user_name,
                                   const string &passwd, int port) {
-    this->repository_database = QSqlDatabase::addDatabase("QMYSQL");
     this->repository_database.setHostName(QString::fromStdString(host_name));
     this->repository_database.setDatabaseName(QString::fromStdString(db_name));
     this->repository_database.setUserName(QString::fromStdString(user_name));
     this->repository_database.setPassword(QString::fromStdString(passwd));
     this->repository_database.setPort(port);
     auto ok = this->repository_database.open();
+    if(ok){
+        qDebug()<<"Database opened successfully!";
+    }
+    else{
+        qDebug()<<this->repository_database.lastError().text();
+        qDebug()<<this->repository_database.lastError();
+    }
     return ok;
 }
 
@@ -46,4 +46,8 @@ void RepositoryApp::print_data() {
     else{
         qDebug()<<"EROARE";
     }
+}
+
+RepositoryApp::RepositoryApp() {
+    this->repository_database = QSqlDatabase::addDatabase("QMYSQL");
 }

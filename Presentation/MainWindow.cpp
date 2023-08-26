@@ -8,11 +8,31 @@
 #include "ui_MainWindow.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(LoginWidget* loginWidget1, MainWidget* mainWidget1, QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    this->loginWidget = loginWidget1;
+    this->mainWidget = mainWidget1;
+    this->load_window();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::load_login_widget() {
+    this->loginWidget->setParent(this);
+    QMainWindow::setCentralWidget(this->loginWidget);
+//    this->setAutoFillBackground(true);
+}
+
+void MainWindow::load_window() {
+
+    this->load_login_widget();
+}
+
+void MainWindow::finised_login() {
+    qDebug()<<"Merge aici!";
+    QMainWindow::setCentralWidget(mainWidget);
+    ///aici dockerul, meniu toolbar si alte chestii
 }
