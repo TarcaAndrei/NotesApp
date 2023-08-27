@@ -14,6 +14,7 @@ bool RepositoryApp::connect_to_db(const string &host_name, const string &db_name
     auto ok = this->repository_database.open();
     if(ok){
         qDebug()<<"Database opened successfully!";
+        this->load_data_from_db();
     }
     else{
         throw std::domain_error(this->repository_database.lastError().text().toStdString());
@@ -49,4 +50,23 @@ void RepositoryApp::print_data() {
 
 RepositoryApp::RepositoryApp() {
     this->repository_database = QSqlDatabase::addDatabase("QMYSQL");
+}
+
+void RepositoryApp::load_data_from_db() {
+    auto lista_tabele = this->repository_database.tables();
+    for(auto& it : lista_tabele){
+        qDebug()<<it;
+    }
+}
+
+vector<string> RepositoryApp::get_all_lists() {
+    vector<string> list_tables;
+    for(auto& it : this->all_data_list){
+        list_tables.push_back(it.first);
+    }
+    return list_tables;
+}
+
+vector<Task> RepositoryApp::get_tasks_from_list(const string &list_name) {
+    return this->all_data_list[list_name];
 }

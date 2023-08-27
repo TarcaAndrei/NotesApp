@@ -6,32 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>498</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWidget</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>80</y>
-     <width>160</width>
-     <height>80</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>MERGE BOSS</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0" alignment="Qt::AlignLeft">
+      <widget class="QListView" name="listView"/>
+     </item>
+     <item row="1" column="2">
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="iDLabel">
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="iDLineEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="nameLabel">
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="nameLineEdit"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="detailsLabel">
+         <property name="text">
+          <string>Details</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="detailsLineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="dateDueLabel">
+         <property name="text">
+          <string>Date due</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="dateDueLineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="priorityLabel">
+         <property name="text">
+          <string>Priority</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="priorityLineEdit"/>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Liste</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Tasks from list</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Task selected</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QListView" name="listView_2"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

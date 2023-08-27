@@ -7,14 +7,16 @@
 #include "Service/LoginService.h"
 #include "Presentation/LoginWidget.h"
 #include "Presentation/MainWindow.h"
+#include "Service/ServiceApp.h"
 #include <QDateTime>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     RepositoryApp repositoryApp = RepositoryApp();
     LoginService loginService = LoginService("../Data/authentification", repositoryApp);
+    ServiceApp serviceApp = ServiceApp(repositoryApp);
     LoginWidget* loginWidget = new LoginWidget(loginService);
-    MainWidget* mainWidget = new MainWidget();
+    MainWidget* mainWidget = new MainWidget(serviceApp);
     MainWindow* mainWindow = new MainWindow(loginWidget, mainWidget);
     mainWindow->show();
 //    qDebug()<<QDateTime::currentDateTime().time().toString(); si a
