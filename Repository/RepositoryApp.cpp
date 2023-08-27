@@ -55,8 +55,23 @@ RepositoryApp::RepositoryApp() {
 void RepositoryApp::load_data_from_db() {
     auto lista_tabele = this->repository_database.tables();
     for(auto& it : lista_tabele){
-        qDebug()<<it;
-    }
+        QSqlQuery qSqlQuery;
+        string sqlquerytxt = "SELECT * from ";
+        sqlquerytxt += it.toStdString();
+        qDebug()<<sqlquerytxt;
+        if(qSqlQuery.exec(QString::fromStdString(sqlquerytxt))){
+            while(qSqlQuery.next()) {
+                auto id = qSqlQuery.value(0).toInt();
+                auto name = qSqlQuery.value(1).toString();
+                auto details = qSqlQuery.value(2).toString();
+                auto due = qSqlQuery.value(3).toString();
+                auto created = qSqlQuery.value(4).toString();
+                auto priority = qSqlQuery.value(5).toString();
+                qDebug() << id << name << details << due << priority;
+            }
+        }
+    }///in teorie nu ar trebui sa salvez doar numele tabelelor...
+    ///deci asta ar trb sa schimb amu
 }
 
 vector<string> RepositoryApp::get_all_lists() {
