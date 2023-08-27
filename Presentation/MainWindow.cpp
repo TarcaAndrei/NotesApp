@@ -32,7 +32,6 @@ void MainWindow::load_window() {
 }
 
 void MainWindow::finised_login() {
-    qDebug()<<"Merge aici!";
     QMainWindow::setCentralWidget(mainWidget);
     ///aici dockerul, meniu toolbar si alte chestii
 }

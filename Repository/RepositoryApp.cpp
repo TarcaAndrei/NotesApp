@@ -58,17 +58,23 @@ void RepositoryApp::load_data_from_db() {
         QSqlQuery qSqlQuery;
         string sqlquerytxt = "SELECT * from ";
         sqlquerytxt += it.toStdString();
-        qDebug()<<sqlquerytxt;
+//        qDebug()<<sqlquerytxt;
         if(qSqlQuery.exec(QString::fromStdString(sqlquerytxt))){
             while(qSqlQuery.next()) {
                 auto id = qSqlQuery.value(0).toInt();
-                auto name = qSqlQuery.value(1).toString();
-                auto details = qSqlQuery.value(2).toString();
+                auto name = qSqlQuery.value(1).toString().toStdString();
+                auto details = qSqlQuery.value(2).toString().toStdString();
                 auto due = qSqlQuery.value(3).toString();
                 auto created = qSqlQuery.value(4).toString();
-                auto priority = qSqlQuery.value(5).toString();
-                qDebug() << id << name << details << due << priority;
+                auto priority = qSqlQuery.value(5).toString().toStdString();
+                auto date_format_due = QDateTime::fromString(due, Qt::ISODate);
+                auto date_format_created = QDateTime::fromString(created, Qt::ISODate);
+                auto task_nou = Task(id, name, details, date_format_due, date_format_created, priority);
+                this->all_data_list[it.toStdString()].push_back(task_nou);
             }
+        }
+        else{
+            qDebug()<<"Eroare la query";
         }
     }///in teorie nu ar trebui sa salvez doar numele tabelelor...
     ///deci asta ar trb sa schimb amu

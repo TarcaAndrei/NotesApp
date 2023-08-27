@@ -32,6 +32,11 @@ void MainWidget::load_lists() {
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
             this->mySecondModel->set_list_name();
+            this->ui->dateDueLineEdit->clear();
+            this->ui->iDLineEdit->clear();
+            this->ui->nameLineEdit->clear();
+            this->ui->detailsLineEdit->clear();
+            this->ui->priorityLineEdit->clear();
             return;
         }
         auto selected = this->ui->listView->selectionModel()->selectedIndexes()[0];
