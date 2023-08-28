@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include "LoginWidget.h"
 #include "../Observer/Observer.h"
+#include <QSystemTrayIcon>
 #include "MainWidget.h"
 
 

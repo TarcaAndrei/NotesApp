@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <string>
 #include <QString>
+#include <iostream>
 #include <QSqlDatabase>
 #include<vector>
 #include<unordered_map>
@@ -20,14 +21,14 @@ class RepositoryApp {
 private:
     unordered_map<string, vector<Task>> all_data_list;
     QSqlDatabase repository_database;
-    void load_data_from_db();
+    void reload_data_from_db();
 public:
     ~RepositoryApp();
     RepositoryApp();
-    void print_data();
     bool connect_to_db(const string& host_name, const string& db_name, const string& user_name, const string& passwd, int port);
     vector<string> get_all_lists();
     vector<Task> get_tasks_from_list(const string& list_name);
+    void add_Task(const string& list_name, const Task& new_task);
     ///MERGE
         ///ACUM TREBUIE SA FACI SCHEMA PE HARTIE CU CE SA CONTINA SI CUM SA MEARGA
         ///TRE SA VEZI CUM POTI ACCESA TOATE TABELELE SI ETC WTC

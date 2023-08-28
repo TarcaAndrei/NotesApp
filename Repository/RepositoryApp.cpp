@@ -14,7 +14,7 @@ bool RepositoryApp::connect_to_db(const string &host_name, const string &db_name
     auto ok = this->repository_database.open();
     if(ok){
         qDebug()<<"Database opened successfully!";
-        this->load_data_from_db();
+        this->reload_data_from_db();
     }
     else{
         throw std::domain_error(this->repository_database.lastError().text().toStdString());
@@ -26,33 +26,14 @@ RepositoryApp::~RepositoryApp() {
     this->repository_database.close();
 }
 
-void RepositoryApp::print_data() {
-    if(this->repository_database.isOpen()){
-        QSqlQuery qry;
-        if(qry.exec("SELECT * from first_list")){
-            while(qry.next()){
-                auto id = qry.value(0).toInt();
-                auto name = qry.value(1).toString();
-                auto details = qry.value(2).toString();
-                auto due = qry.value(3).toString();
-                auto priority = qry.value(5).toString();
-                qDebug() << id << name << details<< due<< priority;
-            }
-        }
-        else{
-            qDebug()<<"Eroare la query";
-        };
-    }
-    else{
-        qDebug()<<"EROARE";
-    }
-}
+
 
 RepositoryApp::RepositoryApp() {
     this->repository_database = QSqlDatabase::addDatabase("QMYSQL");
 }
 
-void RepositoryApp::load_data_from_db() {
+void RepositoryApp::reload_data_from_db() {
+    this->all_data_list.clear();
     auto lista_tabele = this->repository_database.tables();
     for(auto& it : lista_tabele){
         QSqlQuery qSqlQuery;
@@ -91,3 +72,40 @@ vector<string> RepositoryApp::get_all_lists() {
 vector<Task> RepositoryApp::get_tasks_from_list(const string &list_name) {
     return this->all_data_list[list_name];
 }
+
+void RepositoryApp::add_Task(const string &list_name, const Task &new_task) {
+    auto lista_tabele = this->repository_database.tables();
+    auto list_name_qt = QString::fromStdString(list_name);
+    auto found = std::find_if(lista_tabele.begin(), lista_tabele.end(), [list_name_qt](const QString& elem){
+        return list_name_qt == elem;
+    });
+    if(found == lista_tabele.end()){
+        qDebug()<<"Eroare";
+        throw std::exception();
+    }
+    QSqlQuery qSqlQuery;
+    string sqlquerytxt = "INSERT INTO " + list_name + " VALUES (";
+    sqlquerytxt += std::to_string(new_task.get_id());
+    sqlquerytxt += ", \"";
+    sqlquerytxt += new_task.get_name();
+    sqlquerytxt += "\", \"";
+    sqlquerytxt += new_task.get_details();
+    sqlquerytxt += "\", \"";
+    sqlquerytxt += new_task.get_time_due().toString(Qt::ISODate).toStdString();
+    sqlquerytxt += "\", \"";
+    sqlquerytxt += new_task.get_last_updated().toString(Qt::ISODate).toStdString();
+    sqlquerytxt += "\", \"";
+    sqlquerytxt += new_task.get_priority();
+    sqlquerytxt += "\");";
+//    qDebug()<<sqlquerytxt;
+    std::cout<<sqlquerytxt;
+    if(qSqlQuery.exec(QString::fromStdString(sqlquerytxt))){
+
+    }
+    else{
+        qDebug()<<qSqlQuery.lastError().text();
+        throw std::exception();
+    }
+    this->reload_data_from_db();
+}
+

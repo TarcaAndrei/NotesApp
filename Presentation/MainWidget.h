@@ -25,9 +25,13 @@ private:
     MySecondModel* mySecondModel;
     void load_widget();
     void load_lists();
+    void clear_form();
+    void update_lists();
+    void check_tasks_due();
+    QDateTime add1hour();
 public:
     explicit MainWidget(ServiceApp &serviceApp, QWidget *parent= nullptr);
-
+    void run_app();
     ~MainWidget() override;
 
 };
