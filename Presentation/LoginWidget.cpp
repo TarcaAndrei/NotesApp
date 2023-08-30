@@ -50,7 +50,7 @@ void LoginWidget::connections() {
         this->loginService.set_auth_credentials(username_txt, password_txt_txt, save_auth);
         try {
             auto db_connected = this->loginService.connect_repository();
-            this->parent->finised_login();
+            this->parent->finised_task();
         }
         catch (const std::domain_error&e){
             ui->lbl_eroare->setAlignment(Qt::AlignCenter);

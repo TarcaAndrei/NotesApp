@@ -27,7 +27,7 @@ private:
     void load_login_widget();
 
 public:
-    void finised_login() override;
+    void finised_task() override;
     explicit MainWindow(LoginWidget* loginWidget1, MainWidget* mainWidget1 ,QWidget *parent = nullptr);
     ~MainWindow() override;
 

@@ -9,6 +9,7 @@
 #include "Presentation/LoginWidget.h"
 #include "Presentation/MainWindow.h"
 #include "Service/ServiceApp.h"
+#include "Presentation/AddTaskWidget.h"
 #include <QDateTime>
 #include <QSystemTrayIcon>
 
@@ -18,7 +19,8 @@ int main(int argc, char *argv[]) {
     LoginService loginService = LoginService("../Data/authentification", repositoryApp);
     ServiceApp serviceApp = ServiceApp(repositoryApp);
     LoginWidget* loginWidget = new LoginWidget(loginService);
-    MainWidget* mainWidget = new MainWidget(serviceApp);
+    AddTaskWidget* addTaskWidget = new AddTaskWidget(serviceApp);
+    MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget);
     MainWindow* mainWindow = new MainWindow(loginWidget, mainWidget);
     mainWindow->show();
     return QApplication::exec();

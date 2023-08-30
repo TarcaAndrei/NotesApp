@@ -17,10 +17,10 @@ vector<Task> ServiceApp::get_tasks_from_list(const string &list_name) {
 }
 
 void ServiceApp::add_new_task(const string& list_name, const string &name_t, const string &details_t, const QDateTime &time_due_t,
-                              const string &priority_t) {
+                              const string &priority_t, bool is_done) {
     auto last_updated_t = QDateTime::currentDateTime();
     auto id_generated = this->generate_id(list_name);
-    auto task_nou = Task(id_generated, name_t, details_t, time_due_t, last_updated_t, priority_t);
+    auto task_nou = Task(id_generated, name_t, details_t, time_due_t, last_updated_t, priority_t, is_done);
     this->repositoryApp.add_Task(list_name, task_nou);
 }
 

@@ -30,7 +30,7 @@ void MainWindow::load_window() {
     this->load_login_widget();
 }
 
-void MainWindow::finised_login() {
+void MainWindow::finised_task() {
     QMainWindow::setCentralWidget(mainWidget);
     this->mainWidget->run_app();
     ///aici dockerul, meniu toolbar si alte chestii

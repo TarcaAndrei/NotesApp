@@ -5,13 +5,14 @@
 #include "Task.h"
 
 Task::Task(int id_t, const string &name_t, const string &details_t, const QDateTime& time_due_t, const QDateTime& last_updated_t,
-           const string &priority_t) {
+           const string &priority_t, bool done_t) {
     this->id = id_t;
     this->name = name_t;
     this->details = details_t;
     this->time_due = time_due_t;
     this->last_updated = last_updated_t;
     this->priority = priority_t;
+    this->done = done_t;
 }
 
 int Task::get_id() const {
@@ -56,4 +57,12 @@ void Task::set_time_due(const QDateTime &time_due_n) {
 
 void Task::set_last_updated(const QDateTime &last_updated_n) {
     this->last_updated = last_updated_n;
+}
+
+bool Task::is_done() const {
+    return this->done;
+}
+
+void Task::set_is_done(bool done_t) {
+    this->done = done_t;
 }

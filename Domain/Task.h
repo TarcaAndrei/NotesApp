@@ -17,14 +17,16 @@ private:
     QDateTime time_due;
     QDateTime last_updated;
     string priority;
+    bool done;
 public:
-    Task(int id_t, const string& name_t, const string& details_t, const QDateTime& time_due_t, const QDateTime& last_updated_t, const string& priority_t);
+    Task(int id_t, const string& name_t, const string& details_t, const QDateTime& time_due_t, const QDateTime& last_updated_t, const string& priority_t, bool done_t);
     int get_id() const;
     string get_name()const;
     string get_details()const;
     QDateTime get_time_due()const;
     QDateTime get_last_updated()const;
     string get_priority()const;
+    bool is_done()const;
     Task()=default;
     ~Task()=default;
     void set_id(int id_n);
@@ -32,6 +34,7 @@ public:
     void set_details(const string& details_n);
     void set_time_due(const QDateTime& time_due_n);
     void set_last_updated(const QDateTime& last_updated_n=QDateTime::currentDateTime());
+    void set_is_done(bool done_t=true);
 };
 
 

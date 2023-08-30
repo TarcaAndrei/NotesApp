@@ -50,7 +50,8 @@ void RepositoryApp::reload_data_from_db() {
                 auto priority = qSqlQuery.value(5).toString().toStdString();
                 auto date_format_due = QDateTime::fromString(due, Qt::ISODate);
                 auto date_format_created = QDateTime::fromString(created, Qt::ISODate);
-                auto task_nou = Task(id, name, details, date_format_due, date_format_created, priority);
+                auto is_done = qSqlQuery.value(6).toBool();
+                auto task_nou = Task(id, name, details, date_format_due, date_format_created, priority, is_done);
                 this->all_data_list[it.toStdString()].push_back(task_nou);
             }
         }
@@ -96,7 +97,9 @@ void RepositoryApp::add_Task(const string &list_name, const Task &new_task) {
     sqlquerytxt += new_task.get_last_updated().toString(Qt::ISODate).toStdString();
     sqlquerytxt += "\", \"";
     sqlquerytxt += new_task.get_priority();
-    sqlquerytxt += "\");";
+    sqlquerytxt += "\", ";
+    sqlquerytxt += std::to_string(new_task.is_done());
+    sqlquerytxt += ");";
 //    qDebug()<<sqlquerytxt;
     std::cout<<sqlquerytxt;
     if(qSqlQuery.exec(QString::fromStdString(sqlquerytxt))){

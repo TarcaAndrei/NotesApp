@@ -8,7 +8,7 @@
 
 class Observer {
 public:
-    virtual void finised_login()=0;
+    virtual void finised_task()=0;
 };
 
 
