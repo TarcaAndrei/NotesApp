@@ -11,6 +11,8 @@
 #include "ListModels/MyFirstModel.h"
 #include "../Observer/Observer.h"
 #include "AddTaskWidget.h"
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +34,7 @@ private:
     void update_lists();
     void check_tasks_due();
 public:
+    void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent= nullptr);
     void run_app();
     void finised_task() override;

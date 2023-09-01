@@ -76,6 +76,7 @@ void MainWidget::load_lists() {
         this->ui->add_new_task_button->setVisible(false);
         this->addTaskWidget->setVisible(true);
         this->addTaskWidget->refresh_form();
+        this->test_notificare();
     });
 }
 
@@ -108,4 +109,23 @@ void MainWidget::finised_task() {
     this->ui->add_new_task_button->setVisible(true);
     this->addTaskWidget->setVisible(false);
     ///sterg widgetul....
+}
+
+void MainWidget::test_notificare() {
+    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon(":/Icons/n_priority")); // Setarea iconiței
+    trayIcon->show();
+    QMenu *trayMenu = new QMenu();
+    QAction *showAction = new QAction("Show", this);
+    QAction *exitAction = new QAction("Exit", this);
+
+    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
+    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+
+    trayMenu->addAction(showAction);
+    trayMenu->addAction(exitAction);
+
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
+
 }
