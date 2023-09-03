@@ -4,27 +4,44 @@
 #include <iostream>
 #include <QSql>
 #include <QPushButton>
-#include "Repository/RepositoryApp.h"
+#include "Repository/OldRepositoryApp.h"
 #include "Service/LoginService.h"
-#include "Presentation/LoginWidget.h"
+#include "Presentation/AuthWidgets/LoginWidget.h"
 #include "Presentation/MainWindow.h"
 #include "Service/ServiceApp.h"
 #include "Presentation/AddTaskWidget.h"
+#include "Service/ServiceAuth.h"
 #include <QDateTime>
 #include <QSystemTrayIcon>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char*argv[]){
     QApplication a(argc, argv);
     RepositoryApp repositoryApp = RepositoryApp();
-    LoginService loginService = LoginService("../Data/authentification", repositoryApp);
+    ServiceAuth serviceAuth = ServiceAuth("../Data/authentification", repositoryApp);
     ServiceApp serviceApp = ServiceApp(repositoryApp);
-    LoginWidget* loginWidget = new LoginWidget(loginService);
+    LoginWidget* loginWidget = new LoginWidget(serviceAuth);
+    RegisterWidget* registerWidget = new RegisterWidget(serviceAuth);
     AddTaskWidget* addTaskWidget = new AddTaskWidget(serviceApp);
     MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget);
-    MainWindow* mainWindow = new MainWindow(loginWidget, mainWidget);
+    MainWindow* mainWindow = new MainWindow(loginWidget, registerWidget, mainWidget);
     mainWindow->show();
     return QApplication::exec();
 }
+
+//int main_old(int argc, char *argv[]) {
+//    QApplication a(argc, argv);
+//    OldRepositoryApp repositoryApp = OldRepositoryApp();
+//    LoginService loginService = LoginService("../Data/authentification", repositoryApp);
+//    ServiceApp serviceApp = ServiceApp(repositoryApp);
+//    LoginWidget* loginWidget = new LoginWidget(loginService);
+//    AddTaskWidget* addTaskWidget = new AddTaskWidget(serviceApp);
+//    MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget);
+//    MainWindow* mainWindow = new MainWindow(loginWidget, nullptr, mainWidget, nullptr);
+//    mainWindow->show();
+//    return QApplication::exec();
+//    ///acuma trebuie sa ma apuc sa integrez conexiunea
+//    ///trebuie sa introduc registration wtf
+//}
 
 
 //#include <QCoreApplication>

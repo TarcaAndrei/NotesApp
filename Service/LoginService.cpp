@@ -4,7 +4,7 @@
 
 #include "LoginService.h"
 
-LoginService::LoginService(const string &auth_filename, RepositoryApp &repositoryApp) : repositoryApp(repositoryApp) {
+LoginService::LoginService(const string &auth_filename, OldRepositoryApp &repositoryApp) : repositoryApp(repositoryApp) {
     this->auth_file = auth_filename;
     this->load_auth_credentials();
 }

@@ -19,7 +19,7 @@ AddTaskWidget::~AddTaskWidget() {
     delete ui;
 }
 
-void AddTaskWidget::set_parent(Observer *parent_o) {
+void AddTaskWidget::set_parent(ObserverApp *parent_o) {
     this->parent = parent_o;
 }
 
@@ -42,7 +42,7 @@ void AddTaskWidget::load_connections() {
         ///aici la priority sa setez un combobox o lista dinaia cu cateva optiuni
         this->serviceApp.add_new_task(name_table, name_txt, details_txt, dateTime, priority_txt);
         this->refresh_form();
-        this->parent->finised_task();
+        this->parent->finished_adding();
         //acum sa il notific
     });
     this->ui->saveTask->setIcon(QIcon(":/Icons/plus.png"));

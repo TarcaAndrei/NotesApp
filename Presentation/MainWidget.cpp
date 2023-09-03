@@ -87,7 +87,7 @@ void MainWidget::update_lists() {
 }
 
 void MainWidget::check_tasks_due() {
-    timer = new QTimer(this);
+    this->timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&](){
         this->serviceApp.check_if_there_is_a_task_due();
         timer->setInterval(60 * 1000);
@@ -104,12 +104,6 @@ void MainWidget::run_app() {
     this->check_tasks_due();
 }
 
-void MainWidget::finised_task() {
-    this->update_lists();
-    this->ui->add_new_task_button->setVisible(true);
-    this->addTaskWidget->setVisible(false);
-    ///sterg widgetul....
-}
 
 void MainWidget::test_notificare() {
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
@@ -129,3 +123,12 @@ void MainWidget::test_notificare() {
     trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
 
 }
+
+void MainWidget::finished_adding() {
+    this->update_lists();
+    this->ui->add_new_task_button->setVisible(true);
+    this->addTaskWidget->setVisible(false);
+    ///sterg widgetul....
+}
+
+
