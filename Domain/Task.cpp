@@ -4,8 +4,9 @@
 
 #include "Task.h"
 
-Task::Task(int id_t, const string &name_t, const string &details_t, const QDateTime& time_due_t, const QDateTime& last_updated_t,
-           const string &priority_t, bool done_t) {
+Task::Task(int id_t, const string &name_t, const string &details_t, const QDateTime &time_due_t,
+           const string &priority_t,
+           bool done_t, const QDateTime &last_updated_t) {
     this->id = id_t;
     this->name = name_t;
     this->details = details_t;

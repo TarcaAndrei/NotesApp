@@ -8,16 +8,17 @@
 
 #include "../Repository/RepositoryApp.h"
 
-class ServiceApp {
+class ServiceApp : public ObserverApp, public ObservableApp{
 private:
     RepositoryApp& repositoryApp;
-    int generate_id(const string& table_name);
+//    int generate_id(const string& table_name);
 public:
     explicit ServiceApp(RepositoryApp &repositoryApp);
-    vector<string> get_all_lists();
-    vector<Task> get_tasks_from_list(const string& list_name);
+    std::vector<std::pair<int, string>> get_all_lists();
+    vector<Task> get_tasks_from_list(int id_list);
     void add_new_task(const string& list_name, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
     void check_if_there_is_a_task_due();
+    void update(const std::string &option, const std::string &option2) override;
     ServiceApp()=default;
     ~ServiceApp()=default;
 };

@@ -10,14 +10,14 @@
 class MySecondModel : public QAbstractListModel{
 private:
     ServiceApp& serviceApp;
-    string list_name;
+    int list_id;
     //asta tre sa aiba dinala->ai de capu meu....
 public:
     explicit MySecondModel(ServiceApp &serviceApp);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     void change();
-    void set_list_name(const string& list_name_r="");
+    void set_list_id(int list_id_l=-1);
 };
 
 

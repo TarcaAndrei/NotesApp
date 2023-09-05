@@ -51,7 +51,7 @@ void OldRepositoryApp::reload_data_from_db() {
                 auto date_format_due = QDateTime::fromString(due, Qt::ISODate);
                 auto date_format_created = QDateTime::fromString(created, Qt::ISODate);
                 auto is_done = qSqlQuery.value(6).toBool();
-                auto task_nou = Task(id, name, details, date_format_due, date_format_created, priority, is_done);
+                auto task_nou = Task(id, name, details, date_format_due, priority, is_done, date_format_created);
                 this->all_data_list[it.toStdString()].push_back(task_nou);
             }
         }

@@ -19,7 +19,7 @@ MainWidget::~MainWidget() {
 }
 
 void MainWidget::load_widget() {
-    this->addTaskWidget->set_parent(this);
+//    this->addTaskWidget->set_parent(this);
     this->ui->gridLayout->addWidget(this->addTaskWidget);
     this->addTaskWidget->setVisible(false);
     this->load_lists();
@@ -35,13 +35,13 @@ void MainWidget::load_lists() {
     this->ui->listView_2->setSelectionMode(QAbstractItemView::SingleSelection);
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
-            this->mySecondModel->set_list_name();
+            this->mySecondModel->set_list_id();
 //            this->clear_form();
             return;
         }
         auto selected = this->ui->listView->selectionModel()->selectedIndexes()[0];
-        auto name_table = selected.data(Qt::UserRole).toString().toStdString();
-        this->mySecondModel->set_list_name(name_table);
+        auto id_table = selected.data(Qt::UserRole).toInt();
+        this->mySecondModel->set_list_id(id_table);
         return;
     });
     QObject::connect(this->ui->listView_2->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
@@ -124,11 +124,5 @@ void MainWidget::test_notificare() {
 
 }
 
-void MainWidget::finished_adding() {
-    this->update_lists();
-    this->ui->add_new_task_button->setVisible(true);
-    this->addTaskWidget->setVisible(false);
-    ///sterg widgetul....
-}
 
 

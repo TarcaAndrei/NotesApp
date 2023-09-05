@@ -32,7 +32,8 @@ private:
     std::string password;
     std::string token;
     QNetworkAccessManager* accessManager;
-    QNetworkReply* reply;
+    QNetworkReply* reply_login;
+    QNetworkReply* reply_register;
     void load_auth_credentials_from_file();
     void write_auth_credentials_to_file();
 public:

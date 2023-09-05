@@ -9,7 +9,6 @@
 #include "../Service/ServiceApp.h"
 #include "ListModels/MySecondModel.h"
 #include "ListModels/MyFirstModel.h"
-#include "../Observer/ObserverApp.h"
 #include "AddTaskWidget.h"
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -20,7 +19,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWidget; }
 QT_END_NAMESPACE
 
-class MainWidget : public QWidget, ObserverApp {
+class MainWidget : public QWidget {
 Q_OBJECT
 
 private:
@@ -38,7 +37,6 @@ public:
     void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent= nullptr);
     void run_app();
-    void finished_adding() override;
     ~MainWidget() override;
 
 };

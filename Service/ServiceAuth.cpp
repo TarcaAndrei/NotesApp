@@ -84,11 +84,11 @@ void ServiceAuth::connect_to_api() {
     string_to_post += password;
     string_to_post += R"("})";
     postData.append(string_to_post);
-    this->reply = accessManager->post(request, postData);
+    this->reply_login = accessManager->post(request, postData);
 //    QNetworkReply* reply = accessManager.get(request);
-    QObject::connect(reply, &QNetworkReply::finished, [&](){
-        if(reply->error() == QNetworkReply::NoError){
-            auto responseData = reply->readAll();
+    QObject::connect(reply_login, &QNetworkReply::finished, [&](){
+        if(reply_login->error() == QNetworkReply::NoError){
+            auto responseData = reply_login->readAll();
             QJsonDocument jsonDocument = QJsonDocument::fromJson(responseData);
 //            qDebug()<<jsonDocument;
             if(not jsonDocument.isNull()){
@@ -105,9 +105,9 @@ void ServiceAuth::connect_to_api() {
             }
         }
         else{
-            this->notify_all(LOGIN_N_SUCC, this->reply->errorString().toStdString());
+            this->notify_all(LOGIN_N_SUCC, this->reply_login->errorString().toStdString());
         }
-        reply->deleteLater();
+        reply_login->deleteLater();
     });
 }
 
@@ -128,11 +128,11 @@ void ServiceAuth::register_to_api(const std::string &username1, const std::strin
     string_to_post += email1;
     string_to_post += R"("})";
     postData.append(string_to_post);
-    this->reply = accessManager->post(request, postData);
+    this->reply_register = accessManager->post(request, postData);
 //    QNetworkReply* reply = accessManager.get(request);
-    QObject::connect(reply, &QNetworkReply::finished, [&](){
-        if(reply->error() == QNetworkReply::NoError){
-            auto responseData = reply->readAll();
+    QObject::connect(reply_register, &QNetworkReply::finished, [&](){
+        if(reply_register->error() == QNetworkReply::NoError){
+            auto responseData = reply_register->readAll();
 //            qDebug()<<responseData;
             QJsonDocument jsonDocument = QJsonDocument::fromJson(responseData);
 //            qDebug()<<jsonDocument;
@@ -150,10 +150,10 @@ void ServiceAuth::register_to_api(const std::string &username1, const std::strin
         }
         else{
 //            qDebug()<<this->reply->errorString();
-            this->notify_all(REGISTER_N_SUCC, this->reply->errorString().toStdString());
+            this->notify_all(REGISTER_N_SUCC, this->reply_register->errorString().toStdString());
 //            qDebug()<<"Eroare: "<<reply->errorString();
         }
-        reply->deleteLater();
+        reply_register->deleteLater();
     });
 }
 

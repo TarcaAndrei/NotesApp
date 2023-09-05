@@ -19,10 +19,6 @@ AddTaskWidget::~AddTaskWidget() {
     delete ui;
 }
 
-void AddTaskWidget::set_parent(ObserverApp *parent_o) {
-    this->parent = parent_o;
-}
-
 void AddTaskWidget::load_connections() {
     //fara vector
     this->ui->prioritycombo->addItem(QIcon(":/Icons/n_priority"), "None");
@@ -31,6 +27,8 @@ void AddTaskWidget::load_connections() {
     this->ui->prioritycombo->setCurrentIndex(0);
     QObject::connect(this->ui->saveTask, &QPushButton::clicked, [&](){
         auto name_table = this->ui->list_combo->currentText().toStdString();
+        auto id_table = this->ui->list_combo->currentData();
+        qDebug()<<name_table<<id_table;
         auto name_txt = this->ui->nameLineEdit->text().toStdString();
         auto details_txt = this->ui->detailsLineEdit->text().toStdString();
         QDateTime dateTime;
@@ -42,7 +40,6 @@ void AddTaskWidget::load_connections() {
         ///aici la priority sa setez un combobox o lista dinaia cu cateva optiuni
         this->serviceApp.add_new_task(name_table, name_txt, details_txt, dateTime, priority_txt);
         this->refresh_form();
-        this->parent->finished_adding();
         //acum sa il notific
     });
     this->ui->saveTask->setIcon(QIcon(":/Icons/plus.png"));
@@ -61,7 +58,7 @@ void AddTaskWidget::refresh_form() {
     auto lista_liste = this->serviceApp.get_all_lists();
     for(const auto& it : lista_liste){
         qDebug()<<"Ceva";
-        this->ui->list_combo->addItem(QString::fromStdString(it));
+        this->ui->list_combo->addItem(QString::fromStdString(it.second), it.first);
     }
     this->ui->list_combo->setCurrentIndex(0);
     //

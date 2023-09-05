@@ -10,24 +10,37 @@
 #include <iostream>
 #include<vector>
 #include<unordered_map>
+#include<QNetworkAccessManager>
+#include<QNetworkReply>
+#include<QJsonObject>
+#include<QJsonDocument>
 #include "../Domain/Task.h"
+#include "../Observer/ObservableApp.h"
+
+#define LOAD_F "Loading finished"
+
 using std::string;
 using std::vector;
 using std::unordered_map;
 
-class RepositoryApp {
+class RepositoryApp : public ObservableApp{
 private:
+    unordered_map<int, vector<Task>> all_data_list;
+    std::vector<std::pair<int, string>> list_names;
     string access_token;
     void reload_data();
+    void reload_lists();
+    void reload_tasks();
+    QNetworkAccessManager* accessManager;
+    QNetworkReply* reply_lists;
+    QNetworkReply* reply_tasks;
+    //imi trebe unu dinasta la fiecare......
 public:
-    RepositoryApp()=default;
+    RepositoryApp();
     ~RepositoryApp()=default;
     void set_token(const string& token);
-
-    vector<string> get_all_lists();
-
-    vector<Task> get_tasks_from_list(const string &basicString);
-
+    std::vector<std::pair<int, string>> get_all_lists();
+    vector<Task> get_tasks_from_list(int id_lista);
     void add_Task(const string &basicString, Task task);
 };
 

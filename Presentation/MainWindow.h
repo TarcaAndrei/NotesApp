@@ -31,9 +31,6 @@ private:
 public:
     explicit MainWindow(LoginWidget *loginWidget1, RegisterWidget *registerWidget1, MainWidget *mainWidget1,
                         QWidget *parent= nullptr);
-//    void finished_register() override;
-//    void finished_login() override;
-//    void requesting_register() override;
     void update(const std::string &option, const std::string &option2) override;
     ~MainWindow() override;
 

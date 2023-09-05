@@ -53,16 +53,7 @@ void LoginWidget::connections() {
             save_auth = true;
         }
         this->serviceAuth.set_auth_credentials(username_txt, password_txt_txt, save_auth);
-        try {
-            this->serviceAuth.connect_to_api();
-            qDebug()<<"Trece de eroare";
-//            auto db_connected = this->serviceAuth.connect_repository();
-//            this->parent->finished_login();
-        }
-        catch (const std::domain_error&e){
-            ui->lbl_eroare->setAlignment(Qt::AlignCenter);
-            ui->lbl_eroare->setText(e.what());
-        }
+        this->serviceAuth.connect_to_api();
     });
     QObject::connect(ui->buttonRegister, &QPushButton::clicked, [&](){
         this->notify_all(REGISTER_REQ);
@@ -70,11 +61,10 @@ void LoginWidget::connections() {
 }
 
 void LoginWidget::update(const string &option, const string &option2) {
-    if(option == "Logged"){
+    if(option == LOGIN_SUCC){
         this->notify_all(LOGIN_SUCC);
-//        qDebug()<<"Logged";
     }
-    else if(option == "NotLogged"){
+    else if(option == LOGIN_N_SUCC){
         this->ui->lbl_eroare->setText(QString::fromStdString(option2));
     }
 }

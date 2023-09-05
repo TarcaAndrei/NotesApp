@@ -7,7 +7,6 @@
 
 #include <QWidget>
 #include "../Service/ServiceApp.h"
-#include "../Observer/ObserverApp.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -19,14 +18,12 @@ Q_OBJECT
 
 private:
     Ui::AddTaskWidget *ui;
-    ObserverApp* parent;
     ServiceApp& serviceApp;
     void load_connections();
     QDateTime add1hour();
 public:
     void refresh_form();
     explicit AddTaskWidget(ServiceApp &serviceApp, QWidget *parent= nullptr);
-    void set_parent(ObserverApp* parent_o);
     ~AddTaskWidget() override;
 
 };
