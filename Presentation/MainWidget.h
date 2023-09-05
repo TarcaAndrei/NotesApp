@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWidget; }
 QT_END_NAMESPACE
 
-class MainWidget : public QWidget {
+class MainWidget : public QWidget, public ObserverApp {
 Q_OBJECT
 
 private:
@@ -36,6 +36,7 @@ private:
 public:
     void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent= nullptr);
+    void update(const std::string &option, const std::string &option2) override;
     void run_app();
     ~MainWidget() override;
 

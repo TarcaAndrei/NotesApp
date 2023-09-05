@@ -11,6 +11,7 @@
 MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent) :
         QWidget(parent), ui(new Ui::MainWidget), serviceApp(serviceApp), addTaskWidget(addTaskWidget) {
     ui->setupUi(this);
+    this->serviceApp.add_follower(this);
     this->load_widget();
 }
 
@@ -122,6 +123,10 @@ void MainWidget::test_notificare() {
     trayIcon->setContextMenu(trayMenu);
     trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
 
+}
+
+void MainWidget::update(const string &option, const string &option2) {
+    this->update_lists();
 }
 
 

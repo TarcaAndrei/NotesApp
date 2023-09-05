@@ -8,11 +8,11 @@ ServiceApp::ServiceApp(RepositoryApp &repositoryApp) : repositoryApp(repositoryA
     this->repositoryApp.add_follower(this);
 }
 
-void ServiceApp::add_new_task(const string& list_name, const string &name_t, const string &details_t, const QDateTime &time_due_t,
+void ServiceApp::add_new_task(int id_list, const string &name_t, const string &details_t, const QDateTime &time_due_t,
                               const string &priority_t, bool is_done) {
     auto id_generated = 100;
     auto task_nou = Task(id_generated, name_t, details_t, time_due_t, priority_t, is_done);
-    this->repositoryApp.add_Task(list_name, task_nou);
+    this->repositoryApp.add_Task(id_list, task_nou);
 }
 
 //int ServiceApp::generate_id(const string &table_name) {
@@ -48,12 +48,6 @@ void ServiceApp::check_if_there_is_a_task_due() {
 }
 
 std::vector<std::pair<int, string>> ServiceApp::get_all_lists() {
-//    if(not this->repositoryApp.get_all_lists().empty()){
-//        qDebug()<<"II CEVA IN EA";
-//    }
-//    else{
-//        qDebug()<<"goala ce sa-i faci";
-//    }
     return this->repositoryApp.get_all_lists();
 }
 
@@ -63,5 +57,4 @@ vector<Task> ServiceApp::get_tasks_from_list(int id_list) {
 
 void ServiceApp::update(const string &option, const string &option2) {
     this->notify_all(option, option2);
-    qDebug()<<"Notified";
 }

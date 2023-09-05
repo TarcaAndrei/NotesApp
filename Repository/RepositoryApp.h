@@ -34,6 +34,7 @@ private:
     QNetworkAccessManager* accessManager;
     QNetworkReply* reply_lists;
     QNetworkReply* reply_tasks;
+    QNetworkReply* reply_crud_tasks;
     //imi trebe unu dinasta la fiecare......
 public:
     RepositoryApp();
@@ -41,7 +42,7 @@ public:
     void set_token(const string& token);
     std::vector<std::pair<int, string>> get_all_lists();
     vector<Task> get_tasks_from_list(int id_lista);
-    void add_Task(const string &basicString, Task task);
+    void add_Task(int id_list, const Task& task);
 };
 
 

@@ -11,7 +11,49 @@ void RepositoryApp::set_token(const string &token) {
 }
 
 
-void RepositoryApp::add_Task(const string &basicString, Task task) {
+void RepositoryApp::add_Task(int id_list, const Task &task) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "tasks/";                        /// nu uita sa modifici asta
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    QByteArray postData;
+    string string_to_post = R"({"taskName": ")";
+    string_to_post += task.get_name();
+    string_to_post += R"(", "taskDetails": ")";
+    string_to_post += task.get_details();
+    string_to_post += R"(", "taskList": )";
+    string_to_post += std::to_string(id_list);
+    string_to_post += R"(, "taskDue": ")";
+    string_to_post += task.get_time_due().toString(Qt::ISODate).toStdString();
+    string_to_post += R"(", "taskPriority": ")";
+    string_to_post += task.get_priority();
+    string_to_post += R"(", "taskDone": )";
+    string_to_post += std::to_string(task.is_done());
+//    string_to_post += std::to_string(task.is_done());
+    string_to_post += R"(})";        //=>> create-ul la o lista
+    qDebug()<<string_to_post;
+    postData.append(string_to_post);
+    this->reply_crud_tasks = accessManager->post(request, postData);
+    QObject::connect(reply_crud_tasks, &QNetworkReply::finished, [&](){
+        if(reply_crud_tasks->error() == QNetworkReply::NoError){
+            auto responseData = reply_crud_tasks->readAll();
+//            qDebug()<<responseData.toStdString();
+        }
+        else{
+            qDebug()<<"Eroare la PUSH REQUEST la Tasks";
+            qDebug()<<reply_crud_tasks->errorString();
+        }
+        this->reload_data();
+        this->reply_crud_tasks->deleteLater();
+    });
 }
 
 void RepositoryApp::reload_data() {
@@ -98,7 +140,7 @@ void RepositoryApp::reload_tasks() {
                 auto jsonArray = jsonDoc.array();
                 for(auto it : jsonArray){
                     auto jsonObj = it.toObject();
-                    qDebug()<<jsonObj;
+//                    qDebug()<<jsonObj;
                     auto id_t = jsonObj.value("id").toInt();
                     auto name_t = jsonObj.value("taskName").toString().toStdString();
                     auto details_t = jsonObj.value("taskDetails").toString().toStdString();

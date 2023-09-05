@@ -5,7 +5,6 @@
 #include "MyFirstModel.h"
 
 MyFirstModel::MyFirstModel(ServiceApp &serviceApp1) : serviceApp(serviceApp1) {
-    this->serviceApp.add_follower(this);    //mai bine direct la celalalt
 }
 
 int MyFirstModel::rowCount(const QModelIndex &parent) const {
@@ -14,11 +13,8 @@ int MyFirstModel::rowCount(const QModelIndex &parent) const {
 
 QVariant MyFirstModel::data(const QModelIndex &index, int role) const {
     if(role == Qt::DisplayRole){
-        std::string nume = "ceva";
-        if(not this->serviceApp.get_all_lists().empty()){
-            nume = this->serviceApp.get_all_lists()[index.row()].second;
-        }
-        return QString::fromStdString(nume);
+        auto nume_list = this->serviceApp.get_all_lists()[index.row()].second;
+        return QString::fromStdString(nume_list);
     }
     if(role == Qt::UserRole){
         if(not this->serviceApp.get_all_lists().empty()){
@@ -35,8 +31,3 @@ void MyFirstModel::change() {
     emit layoutChanged();
 }
 
-void MyFirstModel::update(const string &option, const string &option2) {
-    if(option == LOAD_F){
-        this->change();
-    }
-}

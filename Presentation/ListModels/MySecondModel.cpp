@@ -10,10 +10,8 @@ MySecondModel::MySecondModel(ServiceApp &serviceApp1) : serviceApp(serviceApp1) 
 
 int MySecondModel::rowCount(const QModelIndex &parent) const {
     if(this->list_id == -1){
-        qDebug()<<"ceva";
         return 0;
     }
-    qDebug()<<"altceva";
     return this->serviceApp.get_tasks_from_list(this->list_id).size();
 }
 

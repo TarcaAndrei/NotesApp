@@ -27,10 +27,10 @@ void AddTaskWidget::load_connections() {
     this->ui->prioritycombo->setCurrentIndex(0);
     QObject::connect(this->ui->saveTask, &QPushButton::clicked, [&](){
         auto name_table = this->ui->list_combo->currentText().toStdString();
-        auto id_table = this->ui->list_combo->currentData();
+        auto id_table = this->ui->list_combo->currentData().toInt();
         qDebug()<<name_table<<id_table;
         auto name_txt = this->ui->nameLineEdit->text().toStdString();
-        auto details_txt = this->ui->detailsLineEdit->text().toStdString();
+        auto details_txt = this->ui->detailsEdit->toPlainText().toStdString();
         QDateTime dateTime;
         auto time_due_txt = this->ui->timeEdit->time();
         auto date_due_txt = this->ui->calendarWidget->selectedDate();
@@ -38,7 +38,7 @@ void AddTaskWidget::load_connections() {
         dateTime.setDate(date_due_txt);
         auto priority_txt = this->ui->prioritycombo->currentText().toStdString();
         ///aici la priority sa setez un combobox o lista dinaia cu cateva optiuni
-        this->serviceApp.add_new_task(name_table, name_txt, details_txt, dateTime, priority_txt);
+        this->serviceApp.add_new_task(id_table, name_txt, details_txt, dateTime, priority_txt);
         this->refresh_form();
         //acum sa il notific
     });
@@ -51,7 +51,7 @@ void AddTaskWidget::refresh_form() {
     this->ui->calendarWidget->setSelectedDate(this->add1hour().date());
     this->ui->timeEdit->setTime(this->add1hour().time());
     this->ui->nameLineEdit->clear();
-    this->ui->detailsLineEdit->clear();
+    this->ui->detailsEdit->clear();
     //aici clear option sau ce idk trebe sa adaug listele posibile;
     //apoi optiunile posibile
     this->ui->list_combo->clear();
