@@ -1,11 +1,6 @@
 #include <QApplication>
-#include <QSqlDatabase>
 #include <cstdlib>
 #include <iostream>
-#include <QSql>
-#include <QPushButton>
-#include "Repository/OldRepositoryApp.h"
-#include "Service/LoginService.h"
 #include "Presentation/AuthWidgets/LoginWidget.h"
 #include "Presentation/MainWindow.h"
 #include "Service/ServiceApp.h"
