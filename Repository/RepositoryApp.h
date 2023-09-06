@@ -52,6 +52,12 @@ public:
     void modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
 
     void delete_task(int id_task);
+
+    void add_new_list(const string &listName);
+
+    void modify_list(int id_l, const string &newName);
+
+    void delete_list(int id_l);
 };
 
 

@@ -23,6 +23,9 @@ public:
     Task get_task_from_id(int id_task);
     void modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
     void delete_task(int id_task);
+    void add_new_list(const std::string &listname);
+    void modifiy_list(int id_l, const std::string&newname);
+    void delete_list(int id_l);
     ServiceApp()=default;
     ~ServiceApp()=default;
 };

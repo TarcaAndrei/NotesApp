@@ -51,8 +51,8 @@ void RepositoryApp::add_Task(int id_list, const Task &task) {
             qDebug()<<"Eroare la PUSH REQUEST la Tasks";
             qDebug()<<reply_crud_tasks->errorString();
         }
-        this->reload_data();
         this->reply_crud_tasks->deleteLater();
+        this->reload_data();
     });
 }
 
@@ -111,8 +111,8 @@ void RepositoryApp::reload_lists() {
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
         }
-        this->reload_tasks();
         this->reply_lists->deleteLater();
+        this->reload_tasks();
     });
 }
 
@@ -157,8 +157,8 @@ void RepositoryApp::reload_tasks() {
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
         }
-        this->notify_all(LOAD_F);
         this->reply_tasks->deleteLater();
+        this->notify_all(LOAD_F);
     });
 }
 
@@ -221,8 +221,8 @@ void RepositoryApp::modify_task(int id_task, int id_list, const string &name_t, 
             qDebug()<<"Eroare la GET REQUEST la Lists";
             qDebug()<<reply_tasks->errorString();
         }
-        this->notify_all(LOAD_F);
         this->reply_tasks->deleteLater();
+        this->notify_all(LOAD_F);
         this->reload_data();
     });
 }
@@ -253,6 +253,97 @@ void RepositoryApp::delete_task(int id_task) {
         }
         this->notify_all(LOAD_F);
         this->reply_tasks->deleteLater();
+        this->reload_data();
+    });
+}
+
+void RepositoryApp::add_new_list(const string &listName) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "lists/";
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    QByteArray postData;
+    string string_to_post = R"({"listName": ")";
+    string_to_post += listName;
+    string_to_post += R"("})";        //=>> create-ul la o lista
+    postData.append(string_to_post);
+    this->reply_lists = accessManager->post(request, postData);
+    QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
+//        qDebug()<<this->replylists;
+        if(reply_lists->error() == QNetworkReply::NoError){
+            auto responseData = reply_lists->readAll();
+            qDebug()<<responseData;
+        }
+        else{
+            qDebug()<<"Eroare la GET REQUEST la Lists";
+        }
+        this->reply_lists->deleteLater();
+        this->reload_data();
+    });
+}
+
+void RepositoryApp::delete_list(int id_l) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "list/";
+    url += std::to_string(id_l);
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    this->reply_lists = accessManager->deleteResource(request);
+    QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
+        if(reply_lists->error() == QNetworkReply::NoError){
+            auto responseData = reply_lists->readAll();
+            qDebug()<<reply_lists->readAll();
+        }
+        else{
+            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<reply_lists->errorString();
+        }
+        this->reply_lists->deleteLater();
+        this->notify_all(LOAD_F);
+        this->reload_data();
+    });
+}
+
+void RepositoryApp::modify_list(int id_l, const string &newName) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "list/";
+    url += std::to_string(id_l);
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    this->reply_lists = accessManager->deleteResource(request);
+    QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
+        if(reply_lists->error() == QNetworkReply::NoError){
+            auto responseData = reply_lists->readAll();
+            qDebug()<<responseData;
+        }
+        else{
+            qDebug()<<"Eroare la GET REQUEST la Lists";
+        }
+        this->reply_lists->deleteLater();
         this->reload_data();
     });
 }

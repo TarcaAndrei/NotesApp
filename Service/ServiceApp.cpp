@@ -72,3 +72,31 @@ void ServiceApp::modify_task(int id_task, int id_list, const string &name_t, con
 void ServiceApp::delete_task(int id_task) {
     this->repositoryApp.delete_task(id_task);
 }
+
+void ServiceApp::add_new_list(const string &listname) {
+    auto lists = this->repositoryApp.get_all_lists();
+    for(auto const& it : lists){
+        if(it.second == listname){
+            throw std::exception();
+            //nu uita de try catch
+        }
+    }
+    this->repositoryApp.add_new_list(listname);
+}
+
+void ServiceApp::modifiy_list(int id_l, const string &newname) {
+    auto lists = this->repositoryApp.get_all_lists();
+    for(auto const& it : lists){
+        if(it.second == newname){
+            if(id_l != it.first) {
+                throw std::exception();
+            }
+            //nu uita de try catch
+        }
+    }
+    this->repositoryApp.modify_list(id_l, newname);
+}
+
+void ServiceApp::delete_list(int id_l) {
+    this->repositoryApp.delete_list(id_l);
+}

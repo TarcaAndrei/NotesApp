@@ -72,7 +72,7 @@ void MainWidget::load_lists() {
         this->viewTaskWidget->setVisible(false);
         this->addTaskWidget->setVisible(true);
         this->addTaskWidget->refresh_form();
-//        this->test_notificare();
+        this->test_notificare();
     });
 }
 
