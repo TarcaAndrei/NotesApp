@@ -6,14 +6,14 @@
 #define APP1_ADDTASKWIDGET_H
 
 #include <QWidget>
-#include "../Service/ServiceApp.h"
+#include "../../Service/ServiceApp.h"
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class AddTaskWidget; }
 QT_END_NAMESPACE
 
-class AddTaskWidget : public QWidget {
+class AddTaskWidget : public QWidget, public ObservableApp {
 Q_OBJECT
 
 private:

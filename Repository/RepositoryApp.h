@@ -43,6 +43,7 @@ public:
     std::vector<std::pair<int, string>> get_all_lists();
     vector<Task> get_tasks_from_list(int id_lista);
     void add_Task(int id_list, const Task& task);
+    Task get_task_from_id(int id_task);
 };
 
 

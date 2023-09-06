@@ -9,7 +9,8 @@
 #include "../Service/ServiceApp.h"
 #include "ListModels/MySecondModel.h"
 #include "ListModels/MyFirstModel.h"
-#include "AddTaskWidget.h"
+#include "TasksWidgets/AddTaskWidget.h"
+#include "TasksWidgets/ViewTaskWidget.h"
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QTimer>
@@ -24,6 +25,7 @@ Q_OBJECT
 
 private:
     AddTaskWidget* addTaskWidget;
+    ViewTaskWidget* viewTaskWidget;
     Ui::MainWidget *ui;
     ServiceApp& serviceApp;
     MyFirstModel* myFirstModel;
@@ -35,7 +37,8 @@ private:
     void check_tasks_due();
 public:
     void test_notificare();
-    explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent= nullptr);
+    explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
+                        ViewTaskWidget *viewTaskWidget, QWidget *parent= nullptr);
     void update(const std::string &option, const std::string &option2) override;
     void run_app();
     ~MainWidget() override;

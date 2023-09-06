@@ -58,3 +58,7 @@ vector<Task> ServiceApp::get_tasks_from_list(int id_list) {
 void ServiceApp::update(const string &option, const string &option2) {
     this->notify_all(option, option2);
 }
+
+Task ServiceApp::get_task_from_id(int id_task) {
+    return this->repositoryApp.get_task_from_id(id_task);
+}

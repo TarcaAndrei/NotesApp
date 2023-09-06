@@ -170,6 +170,17 @@ std::vector<std::pair<int, string>> RepositoryApp::get_all_lists() {
     return this->list_names;
 }
 
+Task RepositoryApp::get_task_from_id(int id_task) {
+    for(const auto& it : this->all_data_list){
+        for(const auto&iterator : it.second){
+            if(iterator.get_id() == id_task){
+                return iterator;
+            }
+        }
+    }
+    throw std::exception();
+}
+
 
 
 

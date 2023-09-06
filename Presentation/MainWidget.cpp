@@ -8,10 +8,14 @@
 #include "ui_MainWidget.h"
 
 
-MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget, QWidget *parent) :
-        QWidget(parent), ui(new Ui::MainWidget), serviceApp(serviceApp), addTaskWidget(addTaskWidget) {
+MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
+                       ViewTaskWidget *viewTaskWidget, QWidget *parent) :
+        QWidget(parent), ui(new Ui::MainWidget), serviceApp(serviceApp), addTaskWidget(addTaskWidget),
+        viewTaskWidget(viewTaskWidget) {
     ui->setupUi(this);
     this->serviceApp.add_follower(this);
+    this->addTaskWidget->add_follower(this);
+    this->viewTaskWidget->add_follower(this);
     this->load_widget();
 }
 
@@ -23,6 +27,8 @@ void MainWidget::load_widget() {
 //    this->addTaskWidget->set_parent(this);
     this->ui->gridLayout->addWidget(this->addTaskWidget);
     this->addTaskWidget->setVisible(false);
+    this->ui->gridLayout->addWidget(this->viewTaskWidget);
+    this->viewTaskWidget->setVisible(false);
     this->load_lists();
 //    this->clear_form();
 }
@@ -37,7 +43,6 @@ void MainWidget::load_lists() {
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
             this->mySecondModel->set_list_id();
-//            this->clear_form();
             return;
         }
         auto selected = this->ui->listView->selectionModel()->selectedIndexes()[0];
@@ -47,37 +52,27 @@ void MainWidget::load_lists() {
     });
     QObject::connect(this->ui->listView_2->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView_2->selectionModel()->selectedIndexes().isEmpty()){
-//            this->clear_form();
+            this->ui->add_new_task_button->setVisible(true);
+            this->viewTaskWidget->setVisible(false);
             return;
         }
         auto selected = this->ui->listView_2->selectionModel()->selectedIndexes()[0];
         auto name_task = selected.data(Qt::DisplayRole).toString();
-        auto id_task = selected.data(Qt::UserRole).toString();
-//        this->ui->nameLineEdit->setText(name_task);
+        auto id_task = selected.data(Qt::UserRole).toInt();
+        auto id_list = this->ui->listView->selectionModel()->selectedIndexes()[0].data(Qt::UserRole).toInt();
+        this->viewTaskWidget->set_ids(id_task, id_list);
+        this->viewTaskWidget->setVisible(true);
+        this->addTaskWidget->setVisible(false);
+        this->ui->add_new_task_button->setVisible(false);
 ///asta acolo sa fac ceva public s-o setez idk..
     });
-//    QObject::connect(this->ui->saveTask, &QPushButton::clicked, [&](){
-//        if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
-//            qDebug()<<"Eroare";
-//            return;
-//        }
-//        auto selected = this->ui->listView->selectionModel()->selectedIndexes()[0];
-//        auto name_table = selected.data(Qt::UserRole).toString().toStdString();
-//        auto name_txt = this->ui->nameLineEdit->text().toStdString();
-//        auto details_txt = this->ui->detailsLineEdit->text().toStdString();
-//        auto time_due_txt = this->ui->dateTimeEdit->dateTime();
-//        auto priority_txt = this->ui->prioritycombo->currentText().toStdString();
-//        ///aici la priority sa setez un combobox o lista dinaia cu cateva optiuni
-//        this->serviceApp.add_new_task(name_table, name_txt, details_txt, time_due_txt, priority_txt, false);
-//        this->update_lists();
-//        this->clear_form();
-//    });
     this->ui->add_new_task_button->setIcon(QIcon(":/Icons/plus.png"));
     QObject::connect(this->ui->add_new_task_button, &QPushButton::clicked, [&](){
         this->ui->add_new_task_button->setVisible(false);
+        this->viewTaskWidget->setVisible(false);
         this->addTaskWidget->setVisible(true);
         this->addTaskWidget->refresh_form();
-        this->test_notificare();
+//        this->test_notificare();
     });
 }
 
@@ -126,6 +121,12 @@ void MainWidget::test_notificare() {
 }
 
 void MainWidget::update(const string &option, const string &option2) {
+    if(option == V_CLOSED){
+        this->ui->listView_2->clearSelection();
+        this->viewTaskWidget->setVisible(false);
+        this->ui->add_new_task_button->setVisible(true);
+        return;
+    }
     this->update_lists();
 }
 
