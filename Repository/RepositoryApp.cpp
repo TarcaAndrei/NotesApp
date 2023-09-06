@@ -181,6 +181,82 @@ Task RepositoryApp::get_task_from_id(int id_task) {
     throw std::exception();
 }
 
+void RepositoryApp::modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done){
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "task/";
+    url += std::to_string(id_task);
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    QByteArray postData;
+    string string_to_post = R"({"taskName": ")";
+    string_to_post += name_t;
+    string_to_post += R"(", "taskDetails": ")";
+    string_to_post += details_t;
+    string_to_post += R"(", "taskList": )";
+    string_to_post += std::to_string(id_list);
+    string_to_post += R"(, "taskDue": ")";
+    string_to_post += time_due_t.toString(Qt::ISODate).toStdString();
+    string_to_post += R"(", "taskPriority": ")";
+    string_to_post += priority_t;
+    string_to_post += R"(", "taskDone": )";
+    string_to_post += std::to_string(is_done);
+//    string_to_post += std::to_string(task.is_done());
+    string_to_post += R"(})";        //=>> create-ul la o lista
+    postData.append(string_to_post);
+    this->reply_tasks = accessManager->put(request, postData);
+    QObject::connect(reply_tasks, &QNetworkReply::finished, [&](){
+        if(reply_tasks->error() == QNetworkReply::NoError){
+            auto responseData = reply_tasks->readAll();
+            qDebug()<<reply_tasks->readAll();
+        }
+        else{
+            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<reply_tasks->errorString();
+        }
+        this->notify_all(LOAD_F);
+        this->reply_tasks->deleteLater();
+        this->reload_data();
+    });
+}
+
+void RepositoryApp::delete_task(int id_task) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "task/";
+    url += std::to_string(id_task);
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    this->reply_tasks = accessManager->deleteResource(request);
+    QObject::connect(reply_tasks, &QNetworkReply::finished, [&](){
+        if(reply_tasks->error() == QNetworkReply::NoError){
+            auto responseData = reply_tasks->readAll();
+            qDebug()<<reply_tasks->readAll();
+        }
+        else{
+            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<reply_tasks->errorString();
+        }
+        this->notify_all(LOAD_F);
+        this->reply_tasks->deleteLater();
+        this->reload_data();
+    });
+}
+
 
 
 

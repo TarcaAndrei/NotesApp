@@ -18,6 +18,11 @@
 #include "../Observer/ObservableApp.h"
 
 #define LOAD_F "Loading finished"
+#define NAME_MODIF 1
+#define DETAILS_MODIF 2
+#define LIST_MODIF 3
+#define DATE_TIME_MODIF 4
+#define PRIORITY_MODIF 5
 
 using std::string;
 using std::vector;
@@ -44,6 +49,9 @@ public:
     vector<Task> get_tasks_from_list(int id_lista);
     void add_Task(int id_list, const Task& task);
     Task get_task_from_id(int id_task);
+    void modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
+
+    void delete_task(int id_task);
 };
 
 

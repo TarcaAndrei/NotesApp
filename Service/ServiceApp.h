@@ -7,6 +7,7 @@
 
 
 #include "../Repository/RepositoryApp.h"
+#define TASK_DUE "Task Due Now"
 
 class ServiceApp : public ObserverApp, public ObservableApp{
 private:
@@ -20,6 +21,8 @@ public:
     void check_if_there_is_a_task_due();
     void update(const std::string &option, const std::string &option2) override;
     Task get_task_from_id(int id_task);
+    void modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
+    void delete_task(int id_task);
     ServiceApp()=default;
     ~ServiceApp()=default;
 };

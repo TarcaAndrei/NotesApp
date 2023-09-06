@@ -14,7 +14,7 @@
    <string>ViewTaskWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="2" column="0">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="updateButton">
@@ -34,7 +34,7 @@
    </item>
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="label">
@@ -97,6 +97,13 @@
         <widget class="QComboBox" name="priorityCombo"/>
        </item>
       </layout>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="is_done">
+       <property name="text">
+        <string>Mark as done</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

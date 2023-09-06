@@ -61,9 +61,9 @@ void MainWidget::load_lists() {
         auto id_task = selected.data(Qt::UserRole).toInt();
         auto id_list = this->ui->listView->selectionModel()->selectedIndexes()[0].data(Qt::UserRole).toInt();
         this->viewTaskWidget->set_ids(id_task, id_list);
-        this->viewTaskWidget->setVisible(true);
-        this->addTaskWidget->setVisible(false);
         this->ui->add_new_task_button->setVisible(false);
+        this->addTaskWidget->setVisible(false);
+        this->viewTaskWidget->setVisible(true);
 ///asta acolo sa fac ceva public s-o setez idk..
     });
     this->ui->add_new_task_button->setIcon(QIcon(":/Icons/plus.png"));
@@ -126,6 +126,9 @@ void MainWidget::update(const string &option, const string &option2) {
         this->viewTaskWidget->setVisible(false);
         this->ui->add_new_task_button->setVisible(true);
         return;
+    }
+    if(option == TASK_DUE){
+        this->test_notificare();
     }
     this->update_lists();
 }

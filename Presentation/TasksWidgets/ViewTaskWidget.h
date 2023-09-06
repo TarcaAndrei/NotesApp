@@ -22,10 +22,12 @@ Q_OBJECT
 private:
     Ui::ViewTaskWidget *ui;
     ServiceApp& serviceApp;
+    std::map<int, bool> modified_attributes;
     int id_task;
     int id_list;
     void load_connections();
     void refresh_form();
+    void editing_connections();
     void load_data_for_task();
 public:
     void set_ids(int id_task_t, int id_list_t);

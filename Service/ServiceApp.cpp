@@ -40,6 +40,7 @@ void ServiceApp::check_if_there_is_a_task_due() {
                     qDebug()<<"Avem ceva ora asta";
                     if(time_due.minute() == crt_time.minute()){
                         qDebug()<<"AVEM CEVA AMU AMU AMU AMU";
+                        this->notify_all(TASK_DUE, std::to_string(item.get_id()));
                     }
                 }
             }///ghici cu ce trebe sa faci aici??? OBSERVER TATI
@@ -61,4 +62,13 @@ void ServiceApp::update(const string &option, const string &option2) {
 
 Task ServiceApp::get_task_from_id(int id_task) {
     return this->repositoryApp.get_task_from_id(id_task);
+}
+
+void ServiceApp::modify_task(int id_task, int id_list, const string &name_t, const string &details_t,
+                             const QDateTime &time_due_t, const string &priority_t, bool is_done) {
+    this->repositoryApp.modify_task(id_task, id_list, name_t, details_t, time_due_t, priority_t, is_done);
+}
+
+void ServiceApp::delete_task(int id_task) {
+    this->repositoryApp.delete_task(id_task);
 }
