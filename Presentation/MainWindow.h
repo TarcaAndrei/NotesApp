@@ -25,9 +25,12 @@ private:
     LoginWidget* loginWidget;
     RegisterWidget* registerWidget;
     MainWidget* mainWidget;
+    QSystemTrayIcon* qSystemTrayIcon;
     void load_window();
     void load_login_widget();
-
+    void load_notifications();
+private slots:
+    void qsystemactivated(QSystemTrayIcon::ActivationReason reason);
 public:
     explicit MainWindow(LoginWidget *loginWidget1, RegisterWidget *registerWidget1, MainWidget *mainWidget1,
                         QWidget *parent= nullptr);

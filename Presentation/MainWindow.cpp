@@ -30,7 +30,9 @@ void MainWindow::load_login_widget() {
 }
 
 void MainWindow::load_window() {
+    this->setWindowIcon(QIcon(":/Icons/todo_logo"));
     this->load_login_widget();
+    this->load_notifications();
 }
 
 void MainWindow::update(const string &option, const string &option2) {
@@ -49,16 +51,25 @@ void MainWindow::update(const string &option, const string &option2) {
     }
 }
 
-//void MainWindow::finished_login() {
-//    QMainWindow::setCentralWidget(mainWidget);
-//    this->mainWidget->run_app();
-//    ///aici dockerul, meniu toolbar si alte chestii
-//}
-//
-//void MainWindow::finished_register() {
-//    QMainWindow::setCentralWidget(loginWidget);
-//}
-//
-//void MainWindow::requesting_register() {
-//    QMainWindow::setCentralWidget(registerWidget);
-//}
+void MainWindow::load_notifications() {
+    qSystemTrayIcon = new QSystemTrayIcon(this);
+    qSystemTrayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
+    qSystemTrayIcon->show();
+    QMenu *trayMenu = new QMenu();
+    QAction *showAction = new QAction(QIcon(":/Icons/maximize.png"),"Show", this);
+    QAction *exitAction = new QAction(QIcon(":/Icons/exit.png"), "Exit", this);
+    connect(qSystemTrayIcon, &QSystemTrayIcon::activated, this, &MainWindow::qsystemactivated);
+    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
+    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    trayMenu->addAction(showAction);
+    trayMenu->addAction(exitAction);
+
+    qSystemTrayIcon->setContextMenu(trayMenu);
+//    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
+}
+
+void MainWindow::qsystemactivated(QSystemTrayIcon::ActivationReason reason) {
+    if (reason == QSystemTrayIcon::DoubleClick) {
+        this->showNormal();
+    }
+}

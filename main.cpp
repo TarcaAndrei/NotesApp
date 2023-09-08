@@ -12,6 +12,7 @@
 
 int main(int argc, char*argv[]){
     QApplication a(argc, argv);
+    QApplication::setQuitOnLastWindowClosed(false);
     RepositoryApp repositoryApp = RepositoryApp();
     ServiceAuth serviceAuth = ServiceAuth("../Data/authentification", repositoryApp);
     ServiceApp serviceApp = ServiceApp(repositoryApp);
@@ -22,6 +23,7 @@ int main(int argc, char*argv[]){
     MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget, viewTaskWidget);
     MainWindow* mainWindow = new MainWindow(loginWidget, registerWidget, mainWidget);
     mainWindow->show();
+
     return QApplication::exec();
 }
 

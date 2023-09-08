@@ -103,7 +103,7 @@ void MainWidget::run_app() {
 
 void MainWidget::test_notificare() {
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setIcon(QIcon(":/Icons/n_priority")); // Setarea iconiței
+    trayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
     trayIcon->show();
     QMenu *trayMenu = new QMenu();
     QAction *showAction = new QAction("Show", this);
@@ -117,7 +117,6 @@ void MainWidget::test_notificare() {
 
     trayIcon->setContextMenu(trayMenu);
     trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
-
 }
 
 void MainWidget::update(const string &option, const string &option2) {
