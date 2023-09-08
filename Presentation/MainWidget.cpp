@@ -6,6 +6,7 @@
 
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
+#include "ListButton.h"
 
 
 MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
@@ -25,6 +26,7 @@ MainWidget::~MainWidget() {
 
 void MainWidget::load_widget() {
 //    this->addTaskWidget->set_parent(this);
+    this->ui->verticalLayout_3->setAlignment(Qt::AlignTop);
     this->ui->gridLayout->addWidget(this->addTaskWidget);
     this->addTaskWidget->setVisible(false);
     this->ui->gridLayout->addWidget(this->viewTaskWidget);
@@ -34,11 +36,15 @@ void MainWidget::load_widget() {
 }
 
 void MainWidget::load_lists() {
+    this->ui->listView->setVisible(false);
+    this->create_list();
     this->myFirstModel = new MyFirstModel(this->serviceApp);
     this->ui->listView->setModel(myFirstModel);
     this->ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->mySecondModel = new MySecondModel(this->serviceApp);
     this->ui->listView_2->setModel(mySecondModel);
+    this->ui->listView->viewport()->setAutoFillBackground(false);
+    this->ui->listView_2->viewport()->setAutoFillBackground(false);
     this->ui->listView_2->setSelectionMode(QAbstractItemView::SingleSelection);
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
@@ -134,6 +140,20 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
         return;
     }
     this->update_lists();
+    this->create_list();
+}
+
+void MainWidget::create_list() {
+    auto lista_liste = this->serviceApp.get_all_lists();
+    for(const auto&it:lista_butoane){
+        it->deleteLater();
+    }
+    this->lista_butoane.clear();
+    for(const auto&it:lista_liste){
+        auto listButton = new ListButton(it.first, it.second, this);
+        this->lista_butoane.push_back(listButton);
+        this->ui->verticalLayout_3->addWidget(listButton);
+    }
 }
 
 

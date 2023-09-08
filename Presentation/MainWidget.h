@@ -11,6 +11,7 @@
 #include "ListModels/MyFirstModel.h"
 #include "TasksWidgets/AddTaskWidget.h"
 #include "TasksWidgets/ViewTaskWidget.h"
+#include "ListButton.h"
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QTimer>
@@ -24,6 +25,7 @@ class MainWidget : public QWidget, public ObserverApp, public ObservableApp {
 Q_OBJECT
 
 private:
+    std::vector<ListButton*> lista_butoane;
     AddTaskWidget* addTaskWidget;
     ViewTaskWidget* viewTaskWidget;
     Ui::MainWidget *ui;
@@ -35,6 +37,7 @@ private:
     void load_lists();
     void update_lists();
     void check_tasks_due();
+    void create_list();
 public:
 //    void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
