@@ -16,7 +16,7 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0" rowspan="2" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="nameLabel">
@@ -79,6 +79,13 @@
         <widget class="QTextEdit" name="detailsEdit"/>
        </item>
       </layout>
+     </item>
+     <item row="0" column="0" alignment="Qt::AlignRight">
+      <widget class="QToolButton" name="closeButton">
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

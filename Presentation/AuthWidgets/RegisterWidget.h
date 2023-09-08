@@ -26,7 +26,7 @@ private:
 public:
     explicit RegisterWidget(ServiceAuth& serviceAuth1, QWidget *parent = nullptr);
     ~RegisterWidget() override;
-    void update(const std::string &option, const std::string &option2) override;
+    void update_auth(const std::string &option, const std::string &option2) override;
 
 };
 

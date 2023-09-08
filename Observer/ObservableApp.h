@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include "ObserverApp.h"
+#include "../Domain/Task.h"
 
 class ObservableApp {
 
@@ -17,7 +18,7 @@ private:
 public:
     void add_follower(ObserverApp* observer);
     void remove_follower(ObserverApp* observer);
-    void notify_all(const std::string& option="", const std::string& option2="");
+    void notify_all(const std::string& option="", const std::string& option2="", const Task& task={});
 };
 
 

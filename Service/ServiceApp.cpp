@@ -33,13 +33,13 @@ void ServiceApp::check_if_there_is_a_task_due() {
             auto date_time_due = item.get_time_due();
             auto crt_date = QDate::currentDate();
             if(date_time_due.date() == crt_date){
-                qDebug()<<"Avem ceva astazi";
+//                qDebug()<<"Avem ceva astazi";
                 auto time_due = date_time_due.time();
                 auto crt_time = QTime::currentTime();
                 if(time_due.hour() == crt_time.hour()){
-                    qDebug()<<"Avem ceva ora asta";
+//                    qDebug()<<"Avem ceva ora asta";
                     if(time_due.minute() == crt_time.minute()){
-                        qDebug()<<"AVEM CEVA AMU AMU AMU AMU";
+//                        qDebug()<<"AVEM CEVA AMU AMU AMU AMU";
                         this->notify_all(TASK_DUE, std::to_string(item.get_id()));
                     }
                 }
@@ -56,7 +56,7 @@ vector<Task> ServiceApp::get_tasks_from_list(int id_list) {
     return this->repositoryApp.get_tasks_from_list(id_list);
 }
 
-void ServiceApp::update(const string &option, const string &option2) {
+void ServiceApp::update(const std::string &option, const std::string &option2, const Task &task) {
     this->notify_all(option, option2);
 }
 
@@ -99,4 +99,14 @@ void ServiceApp::modifiy_list(int id_l, const string &newname) {
 
 void ServiceApp::delete_list(int id_l) {
     this->repositoryApp.delete_list(id_l);
+}
+
+void ServiceApp::check_task_due() {
+    this->timer = new QTimer();
+    this->timer->start();
+    this->timer->setInterval(60 * 1000);
+    QObject::connect(timer, &QTimer::timeout, [&](){
+        qDebug()<<"verificare...";
+        this->check_if_there_is_a_task_due();
+    });
 }

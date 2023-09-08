@@ -17,6 +17,7 @@ MainWindow::MainWindow(LoginWidget *loginWidget1, RegisterWidget *registerWidget
     this->registerWidget = registerWidget1;
     this->registerWidget->add_follower(this);
     this->mainWidget = mainWidget1;
+    this->mainWidget->add_follower(this);
     this->load_window();
 }
 
@@ -35,7 +36,53 @@ void MainWindow::load_window() {
     this->load_notifications();
 }
 
-void MainWindow::update(const string &option, const string &option2) {
+void MainWindow::update(const string &option, const string &option2, const Task& task) {
+    if(option == TASK_DUE){
+        this->sent_notification(task);
+    }
+}
+
+void MainWindow::load_notifications() {
+    qSystemTrayIcon = new QSystemTrayIcon(this);
+    qSystemTrayIcon->setIcon(QIcon(":/Icons/todo_logo.png")); // Setarea iconiței
+    qSystemTrayIcon->show();
+    QMenu *trayMenu = new QMenu();
+    QAction *showAction = new QAction(QIcon(":/Icons/maximize.png"),"Show", this);
+    QAction *exitAction = new QAction(QIcon(":/Icons/exit.png"), "Exit", this);
+    connect(qSystemTrayIcon, &QSystemTrayIcon::activated, this, &MainWindow::qsystemactivated);
+    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
+    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    trayMenu->addAction(showAction);
+    trayMenu->addAction(exitAction);
+
+    qSystemTrayIcon->setContextMenu(trayMenu);
+}
+
+void MainWindow::qsystemactivated(QSystemTrayIcon::ActivationReason reason) {
+    if (reason == QSystemTrayIcon::DoubleClick) {
+        this->showNormal();
+    }
+}
+
+void MainWindow::sent_notification(const Task &task_due) {
+    auto priority = task_due.get_priority();
+    QIcon iconita;
+    if(priority == "None"){
+        iconita = QIcon(":/Icons/n_priority.png");
+    }
+    else if(priority == "Medium"){
+        iconita = QIcon(":/Icons/m_priority.png");
+    }
+    else if(priority == "High"){
+        iconita = QIcon(":/Icons/h_priority.png");
+    }
+    this->qSystemTrayIcon->showMessage(QString::fromStdString(task_due.get_name()), QString::fromStdString(task_due.get_details()), iconita, 5000);
+    QObject::connect(qSystemTrayIcon, &QSystemTrayIcon::messageClicked, [&](){
+        this->showNormal();
+    });
+}
+
+void MainWindow::update_auth(const string &option, const string &option2) {
     if(option == REGISTER_SUCC){
         this->registerWidget->setParent(nullptr);
         QMainWindow::setCentralWidget(this->loginWidget);
@@ -48,28 +95,5 @@ void MainWindow::update(const string &option, const string &option2) {
     else if(option == REGISTER_REQ){
         this->loginWidget->setParent(nullptr);
         QMainWindow::setCentralWidget(registerWidget);
-    }
-}
-
-void MainWindow::load_notifications() {
-    qSystemTrayIcon = new QSystemTrayIcon(this);
-    qSystemTrayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
-    qSystemTrayIcon->show();
-    QMenu *trayMenu = new QMenu();
-    QAction *showAction = new QAction(QIcon(":/Icons/maximize.png"),"Show", this);
-    QAction *exitAction = new QAction(QIcon(":/Icons/exit.png"), "Exit", this);
-    connect(qSystemTrayIcon, &QSystemTrayIcon::activated, this, &MainWindow::qsystemactivated);
-    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
-    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-    trayMenu->addAction(showAction);
-    trayMenu->addAction(exitAction);
-
-    qSystemTrayIcon->setContextMenu(trayMenu);
-//    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
-}
-
-void MainWindow::qsystemactivated(QSystemTrayIcon::ActivationReason reason) {
-    if (reason == QSystemTrayIcon::DoubleClick) {
-        this->showNormal();
     }
 }

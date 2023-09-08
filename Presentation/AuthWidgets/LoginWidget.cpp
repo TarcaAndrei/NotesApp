@@ -60,7 +60,7 @@ void LoginWidget::connections() {
     });
 }
 
-void LoginWidget::update(const string &option, const string &option2) {
+void LoginWidget::update_auth(const string &option, const string &option2) {
     if(option == LOGIN_SUCC){
         this->notify_all(LOGIN_SUCC);
     }

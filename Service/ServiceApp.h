@@ -8,10 +8,12 @@
 
 #include "../Repository/RepositoryApp.h"
 #define TASK_DUE "Task Due Now"
+#include <QTimer>
 
 class ServiceApp : public ObserverApp, public ObservableApp{
 private:
     RepositoryApp& repositoryApp;
+    QTimer* timer;
 //    int generate_id(const string& table_name);
 public:
     explicit ServiceApp(RepositoryApp &repositoryApp);
@@ -19,10 +21,11 @@ public:
     vector<Task> get_tasks_from_list(int id_list);
     void add_new_task(int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
     void check_if_there_is_a_task_due();
-    void update(const std::string &option, const std::string &option2) override;
+    void update(const std::string &option, const std::string &option2, const Task &task) override;
     Task get_task_from_id(int id_task);
     void modify_task(int id_task, int id_list, const string &name_t, const string &details_t, const QDateTime& time_due_t, const string &priority_t, bool is_done=false);
     void delete_task(int id_task);
+    void check_task_due();
     void add_new_list(const std::string &listname);
     void modifiy_list(int id_l, const std::string&newname);
     void delete_list(int id_l);

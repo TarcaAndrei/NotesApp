@@ -72,7 +72,7 @@ void MainWidget::load_lists() {
         this->viewTaskWidget->setVisible(false);
         this->addTaskWidget->setVisible(true);
         this->addTaskWidget->refresh_form();
-        this->test_notificare();
+        this->notify_all(TASK_DUE, TASK_DUE, {});
     });
 }
 
@@ -85,8 +85,9 @@ void MainWidget::update_lists() {
 void MainWidget::check_tasks_due() {
     this->timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&](){
-        this->serviceApp.check_if_there_is_a_task_due();
-        timer->setInterval(60 * 1000);
+        this->serviceApp.check_task_due();
+        timer->stop();
+        timer->deleteLater();
     });
     auto crt_date_time = QDateTime::currentDateTime();
     auto time_crt = crt_date_time.time();
@@ -101,25 +102,25 @@ void MainWidget::run_app() {
 }
 
 
-void MainWidget::test_notificare() {
-    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
-    trayIcon->show();
-    QMenu *trayMenu = new QMenu();
-    QAction *showAction = new QAction("Show", this);
-    QAction *exitAction = new QAction("Exit", this);
+//void MainWidget::test_notificare() {
+//    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+//    trayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
+//    trayIcon->show();
+//    QMenu *trayMenu = new QMenu();
+//    QAction *showAction = new QAction("Show", this);
+//    QAction *exitAction = new QAction("Exit", this);
+//
+//    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
+//    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+//
+//    trayMenu->addAction(showAction);
+//    trayMenu->addAction(exitAction);
+//
+//    trayIcon->setContextMenu(trayMenu);
+//    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
+//}
 
-    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
-    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-
-    trayMenu->addAction(showAction);
-    trayMenu->addAction(exitAction);
-
-    trayIcon->setContextMenu(trayMenu);
-    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
-}
-
-void MainWidget::update(const string &option, const string &option2) {
+void MainWidget::update(const std::string &option, const std::string &option2, const Task &task) {
     if(option == V_CLOSED){
         this->ui->listView_2->clearSelection();
         this->viewTaskWidget->setVisible(false);
@@ -127,7 +128,10 @@ void MainWidget::update(const string &option, const string &option2) {
         return;
     }
     if(option == TASK_DUE){
-        this->test_notificare();
+        auto id_task = std::stoi(option2);
+        auto taskk = this->serviceApp.get_task_from_id(id_task);
+        this->notify_all(TASK_DUE, TASK_DUE, taskk);
+        return;
     }
     this->update_lists();
 }

@@ -215,7 +215,7 @@ void RepositoryApp::modify_task(int id_task, int id_list, const string &name_t, 
     QObject::connect(reply_tasks, &QNetworkReply::finished, [&](){
         if(reply_tasks->error() == QNetworkReply::NoError){
             auto responseData = reply_tasks->readAll();
-            qDebug()<<reply_tasks->readAll();
+//            qDebug()<<reply_tasks->readAll();
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
@@ -245,7 +245,7 @@ void RepositoryApp::delete_task(int id_task) {
     QObject::connect(reply_tasks, &QNetworkReply::finished, [&](){
         if(reply_tasks->error() == QNetworkReply::NoError){
             auto responseData = reply_tasks->readAll();
-            qDebug()<<reply_tasks->readAll();
+//            qDebug()<<reply_tasks->readAll();
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
@@ -308,7 +308,7 @@ void RepositoryApp::delete_list(int id_l) {
     QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
         if(reply_lists->error() == QNetworkReply::NoError){
             auto responseData = reply_lists->readAll();
-            qDebug()<<reply_lists->readAll();
+//            qDebug()<<reply_lists->readAll();
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
@@ -338,7 +338,7 @@ void RepositoryApp::modify_list(int id_l, const string &newName) {
     QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
         if(reply_lists->error() == QNetworkReply::NoError){
             auto responseData = reply_lists->readAll();
-            qDebug()<<responseData;
+//            qDebug()<<responseData;
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";

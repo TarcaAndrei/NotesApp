@@ -8,9 +8,9 @@ void ObservableApp::add_follower(ObserverApp *observer) {
     this->followers.push_back(observer);
 }
 
-void ObservableApp::notify_all(const std::string& option, const std::string& option2) {
+void ObservableApp::notify_all(const std::string& option, const std::string& option2, const Task& task) {
     for(auto item : this->followers){
-        item->update(option, option2);
+        item->update(option, option2, task);
     }
 }
 

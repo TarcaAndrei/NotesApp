@@ -53,7 +53,7 @@ void RegisterWidget::connections() {
 }
 
 
-void RegisterWidget::update(const string &option, const string &option2) {
+void RegisterWidget::update_auth(const string &option, const string &option2) {
     if(option == REGISTER_SUCC){
         this->notify_all(option);
     }

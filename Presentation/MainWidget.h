@@ -20,7 +20,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWidget; }
 QT_END_NAMESPACE
 
-class MainWidget : public QWidget, public ObserverApp {
+class MainWidget : public QWidget, public ObserverApp, public ObservableApp {
 Q_OBJECT
 
 private:
@@ -36,10 +36,10 @@ private:
     void update_lists();
     void check_tasks_due();
 public:
-    void test_notificare();
+//    void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
                         ViewTaskWidget *viewTaskWidget, QWidget *parent= nullptr);
-    void update(const std::string &option, const std::string &option2) override;
+    void update(const std::string &option, const std::string &option2, const Task &task) override;
     void run_app();
     ~MainWidget() override;
 

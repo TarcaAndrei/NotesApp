@@ -11,7 +11,7 @@ void ObservableAuth::add_follower(ObserverAuth *observer) {
 
 void ObservableAuth::notify_all(const std::string& option, const std::string& option2) {
     for(auto item : this->followers){
-        item->update(option, option2);
+        item->update_auth(option, option2);
     }
 }
 

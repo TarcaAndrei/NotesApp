@@ -9,7 +9,7 @@
 
 class ObserverAuth {
 public:
-    virtual void update(const std::string& option, const std::string& option2)=0;
+    virtual void update_auth(const std::string& option, const std::string& option2)=0;
 };
 
 
