@@ -11,10 +11,14 @@
 #include "ListModels/MyFirstModel.h"
 #include "TasksWidgets/AddTaskWidget.h"
 #include "TasksWidgets/ViewTaskWidget.h"
-#include "ListButton.h"
+#include "ListObject.h"
 #include <QSystemTrayIcon>
+#include <QLineEdit>
+#include <QScrollArea>
 #include <QMenu>
+#include <QButtonGroup>
 #include <QTimer>
+#include <QDialog>
 
 
 QT_BEGIN_NAMESPACE
@@ -25,7 +29,9 @@ class MainWidget : public QWidget, public ObserverApp, public ObservableApp {
 Q_OBJECT
 
 private:
-    std::vector<ListButton*> lista_butoane;
+    int nr_lists_before;
+    std::vector<ListObject*> lista_butoane;
+    QButtonGroup* buttonGroup;
     AddTaskWidget* addTaskWidget;
     ViewTaskWidget* viewTaskWidget;
     Ui::MainWidget *ui;
@@ -33,11 +39,14 @@ private:
     MyFirstModel* myFirstModel;
     MySecondModel* mySecondModel;
     QTimer* timer;
+    QTimer* timer2;
     void load_widget();
     void load_lists();
     void update_lists();
     void check_tasks_due();
     void create_list();
+    void update_buttons_list();
+    void close_edit_buttons();
 public:
 //    void test_notificare();
     explicit MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,

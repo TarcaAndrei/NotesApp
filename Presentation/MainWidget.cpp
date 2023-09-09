@@ -6,7 +6,6 @@
 
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
-#include "ListButton.h"
 
 
 MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
@@ -14,6 +13,7 @@ MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
         QWidget(parent), ui(new Ui::MainWidget), serviceApp(serviceApp), addTaskWidget(addTaskWidget),
         viewTaskWidget(viewTaskWidget) {
     ui->setupUi(this);
+    nr_lists_before = 0;
     this->serviceApp.add_follower(this);
     this->addTaskWidget->add_follower(this);
     this->viewTaskWidget->add_follower(this);
@@ -36,8 +36,8 @@ void MainWidget::load_widget() {
 }
 
 void MainWidget::load_lists() {
-    this->ui->listView->setVisible(false);
-    this->create_list();
+//    this->ui->listView->setVisible(false);
+//    this->create_list();
     this->myFirstModel = new MyFirstModel(this->serviceApp);
     this->ui->listView->setModel(myFirstModel);
     this->ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -49,9 +49,12 @@ void MainWidget::load_lists() {
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
             this->mySecondModel->set_list_id();
+            this->close_edit_buttons();
             return;
         }
         auto selected = this->ui->listView->selectionModel()->selectedIndexes()[0];
+        this->close_edit_buttons();
+        this->ui->listView->indexWidget(myFirstModel->index(selected.row()))->setVisible(true);
         auto id_table = selected.data(Qt::UserRole).toInt();
         this->mySecondModel->set_list_id(id_table);
         return;
@@ -85,6 +88,7 @@ void MainWidget::load_lists() {
 
 void MainWidget::update_lists() {
     this->myFirstModel->change();
+    this->update_buttons_list();
     this->mySecondModel->change();
 }
 
@@ -105,26 +109,16 @@ void MainWidget::check_tasks_due() {
 
 void MainWidget::run_app() {
     this->check_tasks_due();
+    timer2 = new QTimer(this);
+    connect(timer2, &QTimer::timeout, this, [&](){
+        this->close_edit_buttons();
+//        qDebug()<<"nu?";
+        timer2->stop();
+        timer2->deleteLater();
+    });
+    timer2->start(35);//bun
 }
 
-
-//void MainWidget::test_notificare() {
-//    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
-//    trayIcon->setIcon(QIcon(":/Icons/todo_logo")); // Setarea iconiței
-//    trayIcon->show();
-//    QMenu *trayMenu = new QMenu();
-//    QAction *showAction = new QAction("Show", this);
-//    QAction *exitAction = new QAction("Exit", this);
-//
-//    connect(showAction, &QAction::triggered, this, &QWidget::showNormal);
-//    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-//
-//    trayMenu->addAction(showAction);
-//    trayMenu->addAction(exitAction);
-//
-//    trayIcon->setContextMenu(trayMenu);
-//    trayIcon->showMessage("Titlul notificării", "Acesta este conținutul notificării.", QSystemTrayIcon::Information, 5000);
-//}
 
 void MainWidget::update(const std::string &option, const std::string &option2, const Task &task) {
     if(option == V_CLOSED){
@@ -140,7 +134,7 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
         return;
     }
     this->update_lists();
-    this->create_list();
+//    this->create_list();
 }
 
 void MainWidget::create_list() {
@@ -150,9 +144,70 @@ void MainWidget::create_list() {
     }
     this->lista_butoane.clear();
     for(const auto&it:lista_liste){
-        auto listButton = new ListButton(it.first, it.second, this);
-        this->lista_butoane.push_back(listButton);
-        this->ui->verticalLayout_3->addWidget(listButton);
+        qDebug()<<"Idk";
+        auto listObject = new ListObject;
+//        buttonGroup->addButton(listObject->get_buton());
+        ui->verticalLayout_3->addWidget(listObject);
+    }
+}
+
+void MainWidget::update_buttons_list() {
+    if(lista_butoane.size() != this->myFirstModel->rowCount()){
+        auto i = 0;
+        while(lista_butoane.size()  > this->myFirstModel->rowCount()){
+            lista_butoane.pop_back();
+            ++i;
+        }
+        i = 0;
+        while(lista_butoane.size() < this->myFirstModel->rowCount()){
+            auto listObj = new ListObject();
+            this->lista_butoane.push_back(listObj);
+            ++i;
+        }
+    }
+    ///now there should be the same number
+//    this->buttonGroup->deleteLater();
+//    buttonGroup = new QButtonGroup;
+    for(auto i = 0; i < this->myFirstModel->rowCount(); ++i){
+        auto ansamble = lista_butoane[i];
+        auto id_list = this->myFirstModel->data(myFirstModel->index(i), Qt::UserRole).toInt();
+        auto name_list = this->myFirstModel->data(myFirstModel->index(i)).toString().toStdString();
+        this->ui->listView->setIndexWidget(myFirstModel->index(i), ansamble);
+        this->ui->listView->indexWidget(myFirstModel->index(i))->setVisible(false);
+        ansamble->set_id(id_list, name_list);
+        ansamble->get_del_btn()->disconnect();
+        ansamble->get_rename_btn()->disconnect();
+        QObject::connect(ansamble->get_del_btn(), &QPushButton::clicked, [&,ansamble](){
+            //window ceva idk
+//            QMesag
+            auto fer = new QDialog();
+            ///tre sa fac fereastra pentru asta neaprat
+            fer->setModal(true);
+            fer->show();
+//            this->serviceApp.delete_list(ansamble->get_id());
+            //cred ca crapa idk
+        });
+        QObject::connect(ansamble->get_rename_btn(), &QPushButton::clicked, [&, ansamble](){
+            //window ceva idk
+            ansamble->get_line_edit()->setVisible(true);
+            ansamble->setAutoFillBackground(true);
+            //cred ca crapa idk
+        });
+        QObject::connect(ansamble->get_line_edit(), &QLineEdit::editingFinished, [&, ansamble](){
+            //window ceva idk
+            ansamble->get_line_edit()->setVisible(false);
+            ansamble->setAutoFillBackground(false);
+            auto new_name = ansamble->get_line_edit()->text().toStdString();
+            qDebug()<<new_name;
+            this->serviceApp.modifiy_list(ansamble->get_id(), new_name);
+            //cred ca crapa idk
+        });
+    }
+}
+
+void MainWidget::close_edit_buttons() {
+    for(const auto& it : lista_butoane){
+        it->setVisible(false);
     }
 }
 

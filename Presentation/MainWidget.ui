@@ -34,7 +34,8 @@
         <string>AddNewList</string>
        </property>
        <property name="icon">
-        <iconset theme="application-exit"/>
+        <iconset theme="application-exit">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -53,6 +54,15 @@
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
        </property>
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -83,6 +93,15 @@
         <font>
          <pointsize>15</pointsize>
         </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
        </property>
       </widget>
      </item>

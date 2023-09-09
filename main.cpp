@@ -7,7 +7,6 @@
 #include "Presentation/TasksWidgets/AddTaskWidget.h"
 #include "Service/ServiceAuth.h"
 #include "Presentation/TasksWidgets/ViewTaskWidget.h"
-#include "Presentation/ListButton.h"
 int main(int argc, char*argv[]){
     QApplication a(argc, argv);
     RepositoryApp repositoryApp = RepositoryApp();
@@ -20,6 +19,8 @@ int main(int argc, char*argv[]){
     MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget, viewTaskWidget);
     MainWindow* mainWindow = new MainWindow(loginWidget, registerWidget, mainWidget);
     mainWindow->show();
+//    auto listObject = new ListObject();
+//    listObject->show();
 //    QApplication::setQuitOnLastWindowClosed(false);
     return QApplication::exec();
 }

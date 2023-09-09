@@ -334,13 +334,19 @@ void RepositoryApp::modify_list(int id_l, const string &newName) {
     auth_token.append("Token ");
     auth_token.append(QString::fromStdString(this->access_token).toUtf8());
     request.setRawHeader("Authorization", auth_token);
-    this->reply_lists = accessManager->deleteResource(request);
+    QByteArray postData;
+    string string_to_post = R"({"listName": ")";
+    string_to_post += newName;
+    string_to_post += R"("})";
+    postData.append(string_to_post);
+    this->reply_lists = accessManager->put(request, postData);
     QObject::connect(reply_lists, &QNetworkReply::finished, [&](){
         if(reply_lists->error() == QNetworkReply::NoError){
             auto responseData = reply_lists->readAll();
 //            qDebug()<<responseData;
         }
         else{
+            qDebug()<<reply_lists->errorString();
             qDebug()<<"Eroare la GET REQUEST la Lists";
         }
         this->reply_lists->deleteLater();
