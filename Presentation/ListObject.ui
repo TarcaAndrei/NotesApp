@@ -32,15 +32,19 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item alignment="Qt::AlignLeft">
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="frame">
-      <bool>false</bool>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>false</bool>
-     </property>
-    </widget>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item alignment="Qt::AlignRight">
     <widget class="QPushButton" name="editButton">

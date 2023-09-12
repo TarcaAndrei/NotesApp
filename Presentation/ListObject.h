@@ -22,10 +22,11 @@ public:
     QPushButton* get_del_btn();
     void set_id(int id, const std::string& name);
     int get_id();
+    std::string get_name();
     QPushButton* get_rename_btn();
     QLineEdit* get_line_edit();
     ~ListObject() override;
-
+    void refresh();
 private:
     int id_lista;
     std::string list_name;

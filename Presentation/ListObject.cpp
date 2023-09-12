@@ -19,6 +19,7 @@ ListObject::ListObject(QWidget *parent) :
     this->ui->deleteBtton->setIcon(QIcon(":/Icons/trash.png"));
     this->ui->lineEdit->setVisible(false);
     this->setVisible(false);
+    this->ui->lineEdit->setAlignment(Qt::AlignLeft);
 //    this->ui->horizontalLayout->setContentsMargins(0, 0, this->height(), this->width());
 //    this->ui->pushButton->setContentsMargins(0, 0, this->height(), this->width());
 }
@@ -49,5 +50,16 @@ QLineEdit *ListObject::get_line_edit() {
 
 int ListObject::get_id() {
     return this->id_lista;
+}
+
+void ListObject::refresh() {
+    this->ui->lineEdit->setVisible(false);
+    this->ui->editButton->setVisible(true);
+    this->ui->deleteBtton->setVisible(true);
+    this->setAutoFillBackground(false);
+}
+
+std::string ListObject::get_name() {
+    return this->list_name;
 }
 

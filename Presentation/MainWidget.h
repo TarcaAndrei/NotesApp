@@ -44,7 +44,6 @@ private:
     void load_lists();
     void update_lists();
     void check_tasks_due();
-    void create_list();
     void update_buttons_list();
     void close_edit_buttons();
 public:

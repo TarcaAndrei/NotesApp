@@ -110,6 +110,7 @@ void RepositoryApp::reload_lists() {
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<reply_lists->errorString();
         }
         this->reply_lists->deleteLater();
         this->reload_tasks();
@@ -156,6 +157,7 @@ void RepositoryApp::reload_tasks() {
         }
         else{
             qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<reply_tasks->errorString();
         }
         this->reply_tasks->deleteLater();
         this->notify_all(LOAD_F);
@@ -280,10 +282,11 @@ void RepositoryApp::add_new_list(const string &listName) {
 //        qDebug()<<this->replylists;
         if(reply_lists->error() == QNetworkReply::NoError){
             auto responseData = reply_lists->readAll();
-            qDebug()<<responseData;
+//            qDebug()<<responseData;
         }
         else{
-            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<"Eroare la POST REQUEST la Lists";
+            qDebug()<<reply_lists->errorString();
         }
         this->reply_lists->deleteLater();
         this->reload_data();
@@ -311,7 +314,7 @@ void RepositoryApp::delete_list(int id_l) {
 //            qDebug()<<reply_lists->readAll();
         }
         else{
-            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<"Eroare la DELETE REQUEST la Lists";
             qDebug()<<reply_lists->errorString();
         }
         this->reply_lists->deleteLater();
@@ -347,7 +350,7 @@ void RepositoryApp::modify_list(int id_l, const string &newName) {
         }
         else{
             qDebug()<<reply_lists->errorString();
-            qDebug()<<"Eroare la GET REQUEST la Lists";
+            qDebug()<<"Eroare la PUT REQUEST la Lists";
         }
         this->reply_lists->deleteLater();
         this->reload_data();
