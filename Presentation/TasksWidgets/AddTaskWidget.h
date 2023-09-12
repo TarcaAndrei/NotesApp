@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include "../../Service/ServiceApp.h"
+#define ADD_DONE "Adding new task done"
 
 
 QT_BEGIN_NAMESPACE

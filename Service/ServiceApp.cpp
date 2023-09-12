@@ -110,3 +110,8 @@ void ServiceApp::check_task_due() {
         this->check_if_there_is_a_task_due();
     });
 }
+
+bool ServiceApp::is_task_done(int id_t) {
+    auto task = this->get_task_from_id(id_t);
+    return task.is_done();
+}

@@ -29,6 +29,7 @@ public:
     void add_new_list(const std::string &listname);
     void modifiy_list(int id_l, const std::string&newname);
     void delete_list(int id_l);
+    bool is_task_done(int id_t);
     ServiceApp()=default;
     ~ServiceApp()=default;
 };

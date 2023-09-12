@@ -30,6 +30,16 @@ void ViewTaskWidget::set_ids(int id_task_t, int id_list_t) {
 }
 
 void ViewTaskWidget::load_connections() {
+    this->ui->toolButton->setIcon(QIcon(":/Icons/exit.png"));
+    this->ui->toolButton->setFlat(true);
+    QPalette pal2=palette();
+    pal2.setBrush(QPalette::Button,Qt::red);
+    pal2.setBrush(QPalette::ButtonText, Qt::white);
+    this->ui->deletebutton->setPalette(pal2);
+    QPalette pal1=palette();
+    pal1.setBrush(QPalette::Button,Qt::green);
+    pal1.setBrush(QPalette::ButtonText, Qt::white);
+    this->ui->updateButton->setPalette(pal1);
     this->ui->calendarWidget->setDateEditEnabled(true);
     this->ui->priorityCombo->addItem(QIcon(":/Icons/n_priority"), "None");
     this->ui->priorityCombo->addItem(QIcon(":/Icons/m_priority"), "Medium");
@@ -67,7 +77,7 @@ void ViewTaskWidget::load_connections() {
         }
         this->notify_all(V_CLOSED);
     });
-    QObject::connect(this->ui->toolButton, &QToolButton::clicked, [&](){
+    QObject::connect(this->ui->toolButton, &QPushButton::clicked, [&](){
         if(this->ui->updateButton->isVisible()){
             //inseamna ca s-o modificat date -> un promt ceva
         }

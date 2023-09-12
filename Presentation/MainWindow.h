@@ -11,6 +11,7 @@
 #include <QSystemTrayIcon>
 #include "AuthWidgets/RegisterWidget.h"
 #include "MainWidget.h"
+#include <QtCore>
 
 
 QT_BEGIN_NAMESPACE

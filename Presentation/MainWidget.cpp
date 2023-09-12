@@ -91,6 +91,12 @@ void MainWidget::load_lists() {
     });
     QObject::connect(this->ui->newListEdit, &QLineEdit::editingFinished, [&](){
         auto txt = this->ui->newListEdit->text().toStdString();
+        if(txt.empty()){
+            this->ui->newListEdit->setVisible(false);
+            this->ui->addnewList->setVisible(true);
+            this->ui->newListEdit->clear();
+            return;
+        }
         try{
             this->serviceApp.add_new_list(txt);
         }
@@ -154,6 +160,10 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
         this->notify_all(TASK_DUE, TASK_DUE, taskk);
         return;
     }
+    if(option == ADD_DONE){
+        this->addTaskWidget->setVisible(false);
+        this->ui->add_new_task_button->setVisible(true);
+    }
     this->update_lists();
 //    this->create_list();
 }
@@ -187,6 +197,9 @@ void MainWidget::update_buttons_list() {
         ansamble->get_rename_btn()->disconnect();
         QObject::connect(ansamble->get_del_btn(), &QPushButton::clicked, [&,ansamble](){
             QMessageBox msgBox;
+//            msgBox.setWindowFlags(Qt::FramelessWindowHint);
+//            msgBox.setAttribute(Qt::WA_TranslucentBackground);
+            msgBox.setWindowTitle("You sure?");
             msgBox.setText("Are you sure you want to delete this list?");
             msgBox.setInformativeText("The tasks from the list will be lost as well!");
             msgBox.setIcon(QMessageBox::Critical);

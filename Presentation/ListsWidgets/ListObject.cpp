@@ -13,9 +13,15 @@ ListObject::ListObject(QWidget *parent) :
     ui->setupUi(this);
     id_lista = -1;
     this->ui->editButton->setFlat(true);
-    this->ui->deleteBtton->setFlat(true);
+//    this->ui->deleteBtton->setFlat(true);
+//    QPalette pal1=palette();
+//    pal1.setBrush(QPalette::Button,Qt::red);
+//    this->ui->editButton->setPalette(pal1);
     this->ui->horizontalLayout->setAlignment(Qt::AlignRight);
+    QPalette pal2=palette();
+    pal2.setBrush(QPalette::Button,Qt::red);
     this->ui->editButton->setIcon(QIcon(":/Icons/edit.png"));
+    this->ui->deleteBtton->setPalette(pal2);
     this->ui->deleteBtton->setIcon(QIcon(":/Icons/trash.png"));
     this->ui->lineEdit->setVisible(false);
     this->setVisible(false);

@@ -32,6 +32,9 @@ void MainWindow::load_login_widget() {
 
 void MainWindow::load_window() {
     this->setWindowIcon(QIcon(":/Icons/todo_logo"));
+//    this->setAttribute(Qt::WA_TranslucentBackground);
+//    this->setWindowFlags(Qt::Window);
+//    this->setWindowOpacity(0.9);
     this->load_login_widget();
     this->load_notifications();
 }

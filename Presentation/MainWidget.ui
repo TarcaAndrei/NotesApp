@@ -17,13 +17,6 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Liste</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="addnewList">
        <property name="font">
         <font>
@@ -92,14 +85,12 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Taskuri</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="add_new_task_button">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>AddNewTask</string>
        </property>
