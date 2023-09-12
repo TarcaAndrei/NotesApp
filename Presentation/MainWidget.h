@@ -11,7 +11,7 @@
 #include "ListModels/MyFirstModel.h"
 #include "TasksWidgets/AddTaskWidget.h"
 #include "TasksWidgets/ViewTaskWidget.h"
-#include "ListObject.h"
+#include "ListsWidgets/ListObject.h"
 #include <QSystemTrayIcon>
 #include <QLineEdit>
 #include <QScrollArea>
@@ -19,6 +19,9 @@
 #include <QButtonGroup>
 #include <QTimer>
 #include <QDialog>
+#include <QMessageBox>
+#include <QDialogButtonBox>
+
 
 
 QT_BEGIN_NAMESPACE

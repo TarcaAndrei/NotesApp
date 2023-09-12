@@ -186,15 +186,24 @@ void MainWidget::update_buttons_list() {
         ansamble->get_line_edit()->disconnect();
         ansamble->get_rename_btn()->disconnect();
         QObject::connect(ansamble->get_del_btn(), &QPushButton::clicked, [&,ansamble](){
-            //window ceva idk
-//            QMesag
-            auto fer = new QDialog();
-            ///tre sa fac fereastra pentru asta neaprat
-            fer->setModal(true);
-            fer->show();
-            this->ui->listView->clearSelection();
-            this->serviceApp.delete_list(ansamble->get_id());
-            //cred ca crapa idk
+            QMessageBox msgBox;
+            msgBox.setText("Are you sure you want to delete this list?");
+            msgBox.setInformativeText("The tasks from the list will be lost as well!");
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowIcon(QIcon(":/Icons/trash.png"));
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::Save);
+            int ret = msgBox.exec();
+            switch (ret) {
+                case QMessageBox::Yes:
+                    this->ui->listView->clearSelection();
+                    this->serviceApp.delete_list(ansamble->get_id());
+                    break;
+                case QMessageBox::No:
+                    return;
+                default:
+                    break;
+            }
         });
         QObject::connect(ansamble->get_rename_btn(), &QPushButton::clicked, [&, ansamble](){
             //window ceva idk

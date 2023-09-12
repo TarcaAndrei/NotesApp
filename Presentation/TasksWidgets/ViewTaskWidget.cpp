@@ -49,8 +49,22 @@ void ViewTaskWidget::load_connections() {
         this->notify_all(V_CLOSED);
     });
     QObject::connect(this->ui->deletebutton, &QPushButton::clicked, [&](){
-        //aici inca ceva daca chiar vrea;
-        this->serviceApp.delete_task(id_task);
+        QMessageBox msgBox;
+        msgBox.setText("Are you sure you want to delete this list?");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setWindowIcon(QIcon(":/Icons/trash.png"));
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Save);
+        int ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Yes:
+                this->serviceApp.delete_task(id_task);
+                break;
+            case QMessageBox::No:
+                return;
+            default:
+                break;
+        }
         this->notify_all(V_CLOSED);
     });
     QObject::connect(this->ui->toolButton, &QToolButton::clicked, [&](){

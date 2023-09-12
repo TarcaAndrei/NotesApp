@@ -6,6 +6,7 @@
 #define APP1_VIEWTASKWIDGET_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include "../../Service/ServiceApp.h"
 
 #define V_CLOSED "View closed"
