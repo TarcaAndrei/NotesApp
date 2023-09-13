@@ -115,3 +115,7 @@ bool ServiceApp::is_task_done(int id_t) {
     auto task = this->get_task_from_id(id_t);
     return task.is_done();
 }
+
+void ServiceApp::set_task_done(int id_task, int id_list, bool is_done) {
+    this->repositoryApp.set_task_done(id_task, id_list, is_done);
+}

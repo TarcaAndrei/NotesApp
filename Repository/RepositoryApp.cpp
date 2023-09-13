@@ -290,6 +290,7 @@ void RepositoryApp::add_new_list(const string &listName) {
         }
         this->reply_lists->deleteLater();
         this->reload_data();
+        this->notify_all(LOAD_F);
     });
 }
 
@@ -354,10 +355,55 @@ void RepositoryApp::modify_list(int id_l, const string &newName) {
         }
         this->reply_lists->deleteLater();
         this->reload_data();
+        this->notify_all(LOAD_F);
     });
 }
 
-
+void RepositoryApp::set_task_done(int id_task, int id_list, bool is_done) {
+    std::string url = getenv("host_name");
+    url += ":";
+    url += getenv("port");
+    url += "/api/";
+    url += "task/";
+    url += std::to_string(id_task);
+    QUrl qUrl = QUrl(QString::fromStdString(url));
+    QNetworkRequest request(qUrl);
+    request.setRawHeader("Content-Type", "application/json");
+    QByteArray auth_token;
+    auth_token.append("Token ");
+    auth_token.append(QString::fromStdString(this->access_token).toUtf8());
+    request.setRawHeader("Authorization", auth_token);
+    auto task_crt = this->get_task_from_id(id_task);
+    QByteArray postData;
+    string string_to_post = R"({"taskName": ")";
+    string_to_post += task_crt.get_name();
+    string_to_post += R"(", "taskDetails": ")";
+    string_to_post += task_crt.get_details();
+    string_to_post += R"(", "taskList": )";
+    string_to_post += std::to_string(id_list);
+    string_to_post += R"(, "taskDue": ")";
+    string_to_post += task_crt.get_time_due().toString(Qt::ISODate).toStdString();
+    string_to_post += R"(", "taskPriority": ")";
+    string_to_post += task_crt.get_priority();
+    string_to_post += R"(", "taskDone": )";
+    string_to_post += std::to_string(is_done);
+    string_to_post += R"(})";        //=>> create-ul la o lista
+    postData.append(string_to_post);
+    this->reply_tasks = accessManager->put(request, postData);
+    QObject::connect(reply_tasks, &QNetworkReply::finished, [&](){
+        if(reply_tasks->error() == QNetworkReply::NoError){
+            auto responseData = reply_tasks->readAll();
+//            qDebug()<<reply_tasks->readAll();
+        }
+        else{
+            qDebug()<<"Eroare la PUT REQUEST la Tasks";
+            qDebug()<<reply_tasks->errorString();
+        }
+        this->reply_tasks->deleteLater();
+        this->reload_data();
+        this->notify_all(LOAD_F);
+    });
+}
 
 
 

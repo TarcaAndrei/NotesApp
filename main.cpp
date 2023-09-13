@@ -19,8 +19,7 @@ int main(int argc, char*argv[]){
     MainWidget* mainWidget = new MainWidget(serviceApp, addTaskWidget, viewTaskWidget);
     MainWindow* mainWindow = new MainWindow(loginWidget, registerWidget, mainWidget);
     mainWindow->show();
-//    auto listObject = new ListObject();
-//    listObject->show();
+
 //    QApplication::setQuitOnLastWindowClosed(false);
     return QApplication::exec();
 }

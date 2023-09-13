@@ -14,14 +14,10 @@
 #include "ListsWidgets/ListObject.h"
 #include <QSystemTrayIcon>
 #include <QLineEdit>
-#include <QScrollArea>
 #include <QMenu>
-#include <QButtonGroup>
 #include <QTimer>
-#include <QDialog>
 #include <QMessageBox>
-#include <QDialogButtonBox>
-
+#include <QCheckBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -33,7 +29,7 @@ Q_OBJECT
 
 private:
     std::vector<ListObject*> lista_butoane;
-    QButtonGroup* buttonGroup;
+    std::vector<QCheckBox*> list_checks;
     AddTaskWidget* addTaskWidget;
     ViewTaskWidget* viewTaskWidget;
     Ui::MainWidget *ui;
@@ -47,6 +43,7 @@ private:
     void update_lists();
     void check_tasks_due();
     void update_buttons_list();
+    void update_checks_task();
     void close_edit_buttons();
 public:
 //    void test_notificare();

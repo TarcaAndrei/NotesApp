@@ -59,6 +59,8 @@ public:
     void modify_list(int id_l, const string &newName);
 
     void delete_list(int id_l);
+
+    void set_task_done(int id_task, int id_list, bool is_done);
 };
 
 

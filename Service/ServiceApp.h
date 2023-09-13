@@ -30,6 +30,7 @@ public:
     void modifiy_list(int id_l, const std::string&newname);
     void delete_list(int id_l);
     bool is_task_done(int id_t);
+    void set_task_done(int id_task, int id_list, bool is_done);
     ServiceApp()=default;
     ~ServiceApp()=default;
 };

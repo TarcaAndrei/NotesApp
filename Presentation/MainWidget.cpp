@@ -33,12 +33,9 @@ void MainWidget::load_widget() {
     this->ui->gridLayout->addWidget(this->viewTaskWidget);
     this->viewTaskWidget->setVisible(false);
     this->load_lists();
-//    this->clear_form();
 }
 
 void MainWidget::load_lists() {
-//    this->ui->listView->setVisible(false);
-//    this->create_list();
     this->myFirstModel = new MyFirstModel(this->serviceApp);
     this->ui->listView->setModel(myFirstModel);
     this->ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -50,6 +47,7 @@ void MainWidget::load_lists() {
     QObject::connect(this->ui->listView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView->selectionModel()->selectedIndexes().isEmpty()){
             this->mySecondModel->set_list_id();
+//            this->update_checks_task();
             this->close_edit_buttons();
             return;
         }
@@ -58,6 +56,7 @@ void MainWidget::load_lists() {
         this->ui->listView->indexWidget(myFirstModel->index(selected.row()))->setVisible(true);
         auto id_table = selected.data(Qt::UserRole).toInt();
         this->mySecondModel->set_list_id(id_table);
+//        this->update_checks_task();
         return;
     });
     QObject::connect(this->ui->listView_2->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
@@ -124,6 +123,7 @@ void MainWidget::update_lists() {
     this->update_buttons_list();
     this->mySecondModel->change();
     timer2->start(35);//bun->poate mai putin idk
+//    this->update_checks_task();
 }
 
 void MainWidget::check_tasks_due() {
@@ -169,16 +169,12 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
 
 void MainWidget::update_buttons_list() {
     if(lista_butoane.size() != this->myFirstModel->rowCount()){
-        auto i = 0;
         while(lista_butoane.size()  > this->myFirstModel->rowCount()){
             lista_butoane.pop_back();
-            ++i;
         }
-        i = 0;
         while(lista_butoane.size() < this->myFirstModel->rowCount()){
             auto listObj = new ListObject();
             this->lista_butoane.push_back(listObj);
-            ++i;
         }
     }
     ///now there should be the same number
@@ -240,12 +236,45 @@ void MainWidget::update_buttons_list() {
     }
 }
 
+void MainWidget::update_checks_task() {
+    if(list_checks.size() != this->mySecondModel->rowCount()){
+        while(list_checks.size()  > this->mySecondModel->rowCount()){
+            list_checks.pop_back();
+        }
+        while(list_checks.size() < this->mySecondModel->rowCount()){
+            auto new_check = new QCheckBox();
+            new_check->setLayoutDirection(Qt::RightToLeft);
+            this->list_checks.push_back(new_check);
+        }
+    }
+    for(auto i = 0; i < this->mySecondModel->rowCount(); ++i){
+        auto ansamble = list_checks[i];
+        auto id_task = this->mySecondModel->data(mySecondModel->index(i), Qt::UserRole).toInt();
+        auto id_list = this->ui->listView->selectionModel()->selectedIndexes()[0].data(Qt::UserRole).toInt();
+        auto font = this->mySecondModel->data(mySecondModel->index(i), Qt::FontRole);
+        if(font.isValid()){
+            ansamble->setChecked(true);
+        }
+        this->ui->listView_2->setIndexWidget(mySecondModel->index(i), ansamble);
+        ansamble->setProperty("id", id_task);
+        ansamble->setProperty("id_list", id_list);
+        ansamble->disconnect();
+        QObject::connect(ansamble, &QCheckBox::clicked, [&, ansamble](bool checked){
+            auto id_task = ansamble->property("id").toInt();
+            auto id_list = ansamble->property("id_list").toInt();
+            this->serviceApp.set_task_done(id_task, id_list, checked);
+            this->viewTaskWidget->setVisible(false);
+        });
+    }
+}
+
 void MainWidget::close_edit_buttons() {
     for(const auto& it : lista_butoane){
         it->setVisible(false);
         it->refresh();
     }
 }
+
 
 
 
