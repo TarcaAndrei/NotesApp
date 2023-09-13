@@ -23,6 +23,7 @@
 #define LIST_MODIF 3
 #define DATE_TIME_MODIF 4
 #define PRIORITY_MODIF 5
+#define DONE_MODIF 6
 
 using std::string;
 using std::vector;

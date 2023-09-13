@@ -32,7 +32,6 @@ class MainWidget : public QWidget, public ObserverApp, public ObservableApp {
 Q_OBJECT
 
 private:
-    int nr_lists_before;
     std::vector<ListObject*> lista_butoane;
     QButtonGroup* buttonGroup;
     AddTaskWidget* addTaskWidget;

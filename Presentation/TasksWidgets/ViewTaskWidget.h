@@ -27,7 +27,6 @@ private:
     int id_task;
     int id_list;
     void load_connections();
-    void refresh_form();
     void editing_connections();
     void load_data_for_task();
 public:

@@ -6,6 +6,7 @@
 #define APP1_MYSECONDMODEL_H
 #include <QAbstractListModel>
 #include "../../Service/ServiceApp.h"
+#include <QFont>
 
 class MySecondModel : public QAbstractListModel{
 private:

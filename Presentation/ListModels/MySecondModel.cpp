@@ -27,6 +27,15 @@ QVariant MySecondModel::data(const QModelIndex &index, int role) const {
         auto list = this->serviceApp.get_tasks_from_list(this->list_id)[index.row()];
         return list.get_id();
     }
+    if(role == Qt::FontRole){
+        auto task = this->serviceApp.get_tasks_from_list(this->list_id)[index.row()];
+        if(task.is_done()){
+            QFont font = QFont();
+            font.setStrikeOut(true);
+            return font;
+        }
+        return {};
+    }
     return {};
 }
 

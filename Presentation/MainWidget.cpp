@@ -13,7 +13,6 @@ MainWidget::MainWidget(ServiceApp &serviceApp, AddTaskWidget *addTaskWidget,
         QWidget(parent), ui(new Ui::MainWidget), serviceApp(serviceApp), addTaskWidget(addTaskWidget),
         viewTaskWidget(viewTaskWidget) {
     ui->setupUi(this);
-    nr_lists_before = 0;
     this->serviceApp.add_follower(this);
     this->addTaskWidget->add_follower(this);
     this->viewTaskWidget->add_follower(this);
@@ -63,7 +62,7 @@ void MainWidget::load_lists() {
     });
     QObject::connect(this->ui->listView_2->selectionModel(), &QItemSelectionModel::selectionChanged, [&](){
         if(this->ui->listView_2->selectionModel()->selectedIndexes().isEmpty()){
-            this->ui->add_new_task_button->setVisible(true);
+//            this->ui->add_new_task_button->setVisible(true);
             this->viewTaskWidget->setVisible(false);
             return;
         }
@@ -72,14 +71,14 @@ void MainWidget::load_lists() {
         auto id_task = selected.data(Qt::UserRole).toInt();
         auto id_list = this->ui->listView->selectionModel()->selectedIndexes()[0].data(Qt::UserRole).toInt();
         this->viewTaskWidget->set_ids(id_task, id_list);
-        this->ui->add_new_task_button->setVisible(false);
+//        this->ui->add_new_task_button->setVisible(false);
         this->addTaskWidget->setVisible(false);
         this->viewTaskWidget->setVisible(true);
 ///asta acolo sa fac ceva public s-o setez idk..
     });
     this->ui->add_new_task_button->setIcon(QIcon(":/Icons/plus.png"));
     QObject::connect(this->ui->add_new_task_button, &QPushButton::clicked, [&](){
-        this->ui->add_new_task_button->setVisible(false);
+//        this->ui->add_new_task_button->setVisible(false);
         this->viewTaskWidget->setVisible(false);
         this->addTaskWidget->setVisible(true);
         this->addTaskWidget->refresh_form();
@@ -151,7 +150,7 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
     if(option == V_CLOSED){
         this->ui->listView_2->clearSelection();
         this->viewTaskWidget->setVisible(false);
-        this->ui->add_new_task_button->setVisible(true);
+//        this->ui->add_new_task_button->setVisible(true);
         return;
     }
     if(option == TASK_DUE){
@@ -162,7 +161,7 @@ void MainWidget::update(const std::string &option, const std::string &option2, c
     }
     if(option == ADD_DONE){
         this->addTaskWidget->setVisible(false);
-        this->ui->add_new_task_button->setVisible(true);
+//        this->ui->add_new_task_button->setVisible(true);
     }
     this->update_lists();
 //    this->create_list();
@@ -197,8 +196,6 @@ void MainWidget::update_buttons_list() {
         ansamble->get_rename_btn()->disconnect();
         QObject::connect(ansamble->get_del_btn(), &QPushButton::clicked, [&,ansamble](){
             QMessageBox msgBox;
-//            msgBox.setWindowFlags(Qt::FramelessWindowHint);
-//            msgBox.setAttribute(Qt::WA_TranslucentBackground);
             msgBox.setWindowTitle("You sure?");
             msgBox.setText("Are you sure you want to delete this list?");
             msgBox.setInformativeText("The tasks from the list will be lost as well!");

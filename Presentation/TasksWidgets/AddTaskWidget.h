@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include "../../Service/ServiceApp.h"
+#include <QMessageBox>
 #define ADD_DONE "Adding new task done"
 
 

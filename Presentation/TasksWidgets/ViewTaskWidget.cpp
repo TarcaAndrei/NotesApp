@@ -27,6 +27,7 @@ void ViewTaskWidget::set_ids(int id_task_t, int id_list_t) {
     this->modified_attributes[LIST_MODIF]=false;
     this->modified_attributes[DATE_TIME_MODIF]=false;
     this->modified_attributes[PRIORITY_MODIF]=false;
+    this->modified_attributes[DONE_MODIF]=false;
 }
 
 void ViewTaskWidget::load_connections() {
@@ -64,7 +65,7 @@ void ViewTaskWidget::load_connections() {
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setWindowIcon(QIcon(":/Icons/trash.png"));
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::Save);
+        msgBox.setDefaultButton(QMessageBox::No);
         int ret = msgBox.exec();
         switch (ret) {
             case QMessageBox::Yes:
@@ -79,20 +80,29 @@ void ViewTaskWidget::load_connections() {
     });
     QObject::connect(this->ui->toolButton, &QPushButton::clicked, [&](){
         if(this->ui->updateButton->isVisible()){
-            //inseamna ca s-o modificat date -> un promt ceva
+            QMessageBox msgBox;
+            msgBox.setText("Do you want to discard the updates?");
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setWindowIcon(QIcon(":/Icons/edit.png"));
+            msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+            int ret = msgBox.exec();
+            switch (ret) {
+                case QMessageBox::Discard:
+                    break;
+                case QMessageBox::Cancel:
+                    return;
+                case QMessageBox::Save:
+                    this->ui->updateButton->clicked(true);
+                    return;
+                default:
+                    break;
+            }
         }
         this->notify_all(V_CLOSED);
     });
     this->ui->updateButton->setVisible(false);
     this->editing_connections();
-}
-
-void ViewTaskWidget::refresh_form() {
-    this->ui->timeEdit->clear();
-    this->ui->calendarWidget->setSelectedDate(QDate::currentDate());
-    this->ui->timeEdit->setTime(QTime::currentTime());
-    this->ui->nameEdit->clear();
-    this->ui->detailsEdit->clear();
 }
 
 void ViewTaskWidget::load_data_for_task() {
@@ -137,6 +147,10 @@ void ViewTaskWidget::editing_connections() {
     QObject::connect(this->ui->calendarWidget, &QCalendarWidget::clicked, [&](){
         this->ui->updateButton->setVisible(true);
         this->modified_attributes[DATE_TIME_MODIF]=true;
+    });
+    QObject::connect(this->ui->is_done, &QCheckBox::clicked, [&](){
+        this->ui->updateButton->setVisible(true);
+        this->modified_attributes[DONE_MODIF]=true;
     });
 
 }

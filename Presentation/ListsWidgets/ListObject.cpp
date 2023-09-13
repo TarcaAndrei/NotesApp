@@ -12,11 +12,11 @@ ListObject::ListObject(QWidget *parent) :
         QWidget(parent), ui(new Ui::ListObject) {
     ui->setupUi(this);
     id_lista = -1;
-    this->ui->editButton->setFlat(true);
+//    this->ui->editButton->setFlat(true);
 //    this->ui->deleteBtton->setFlat(true);
-//    QPalette pal1=palette();
-//    pal1.setBrush(QPalette::Button,Qt::red);
-//    this->ui->editButton->setPalette(pal1);
+    QPalette pal1=palette();
+    pal1.setBrush(QPalette::Button,Qt::cyan);
+    this->ui->editButton->setPalette(pal1);
     this->ui->horizontalLayout->setAlignment(Qt::AlignRight);
     QPalette pal2=palette();
     pal2.setBrush(QPalette::Button,Qt::red);

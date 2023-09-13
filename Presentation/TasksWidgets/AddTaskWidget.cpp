@@ -45,6 +45,22 @@ void AddTaskWidget::load_connections() {
         this->notify_all(ADD_DONE);
     });
     QObject::connect(this->ui->closeButton, &QPushButton::clicked, [&](){
+        QMessageBox msgBox;
+        msgBox.setText("Are you sure you want to exit?");
+        msgBox.setInformativeText("The information that you have just written will be lost!");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowIcon(QIcon(":/Icons/edit.png"));
+        msgBox.setStandardButtons(QMessageBox::Discard | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Discard:
+                break;
+            case QMessageBox::Cancel:
+                return;
+            default:
+                break;
+        }
         this->notify_all(ADD_DONE);
     });
     this->ui->saveTask->setIcon(QIcon(":/Icons/plus.png"));
